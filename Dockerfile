@@ -1,6 +1,7 @@
 FROM debian:10
 
 RUN apt update
+RUN git --help
 RUN apt install -y git
 
 ARG pivpnFilesDir=/etc/.pivpn
