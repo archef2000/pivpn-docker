@@ -1,7 +1,7 @@
 FROM debian:10
 
-RUN apt-get update
-RUN apt-get install -y git
+RUN apt update
+RUN apt install -y git
 
 ARG pivpnFilesDir=/etc/.pivpn
 # Should check all the logics before upgrading the version
