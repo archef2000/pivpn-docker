@@ -1,0 +1,54 @@
+/tmp/install.sh --reconfigure --unattended /etc/pivpn/setupVars.conf --pivpnHOST=test.com
+
+
+########### DO NOT MODIFY ###########
+
+UNATTUPG=
+pivpnInterface=eth0
+ENCRYPT=2048
+APPLY_TWO_POINT_FOUR=false
+DOWNLOAD_DH_PARAM=false
+
+#####################################
+
+
+
+########## CAN BE MODIFIED ##########
+# Only change the following values if
+# the default detection does not work.
+
+# DNS of the PiVPN server
+#IPv4dns=
+
+# Static IP Address of the PiVPN server
+#IPv4addr=
+
+# Your static IPv4 gateway
+#IPv4gw=
+
+# User
+install_user=pivpn
+VPN=openvpn
+pivpnNET=10.8.0.0
+TWO_POINT_FOUR=1
+USE_PREDEFINED_DH_PARAM=1
+UNATTUPG=1
+
+# udp or tcp (lowercase, only choose TCP if you know why you need TCP)
+pivpnProto=tcp
+
+# OpenVPN port
+PORT=443
+
+# The public IP or DNS name to connect to your server
+#PUBLICDNS=
+
+# Choose the DNS Provider for your VPN Clients
+OVPNDNS1=8.8.8.8
+OVPNDNS2=8.8.4.4
+
+# Client ovpn profile
+CLIENT_NAME=client
+CLIENT_PASS=vpnpasswd
+
+#####################################
