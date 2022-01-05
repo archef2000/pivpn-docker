@@ -1,7 +1,7 @@
 FROM debian:latest
 
 RUN apt update
-RUN apt install -y --install-no-recomends git curl dhcpcd5
+RUN apt install -y git curl dhcpcd5
 
 ARG pivpnFilesDir=/etc/.pivpn
 # Should check all the logics before upgrading the version
