@@ -1,4 +1,4 @@
-FROM debian:10
+FROM debian:latest
 
 RUN apt update
 RUN git --help
