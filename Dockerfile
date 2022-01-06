@@ -7,6 +7,7 @@ RUN apt install -y -f --no-install-recommends systemd grepcidr openvpn expect na
 
 COPY setupVars.conf /etc/pivpn/
 
+RUN mkdir -p /usr/local/src/pivpn
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
 ARG PLAT=Debian
