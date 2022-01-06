@@ -5,7 +5,7 @@
 
 set -eu
 
-INSTALLER=/etc/.pivpn/auto_install/install.sh
+INSTALLER=/tmp/install.sh
 
 # Skip execution when sourcing the INSTALLER
 PIVPN_TEST=true
@@ -71,7 +71,7 @@ source "${INSTALLER}"
 
     # Generate the client ovpn profile
     # pivpn with exit code 1 even on success
-    pivpn -a -n "${CLIENT_NAME}" -p "${CLIENT_PASS}" || true
+    pivpn -a -n "${CLIENT_NAME}" -p "${CLIENT_PASS}" -d 1080 || true
 
 
     printf "\\n\\n::: PiVPN Service Started\\n"
