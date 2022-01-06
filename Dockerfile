@@ -31,4 +31,5 @@ RUN apt-get clean \
     
     
 WORKDIR /home/pivpn
-    
+COPY run .
+CMD ["./run"]    
