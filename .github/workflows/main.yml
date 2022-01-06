@@ -19,7 +19,6 @@ jobs:
       run: |
         apt purge --auto-remove qemu-user qemu-user-binfmt binfmt-support
         apt install qemu-user
-        docker buildx inspect --bootstrap
     - name: docker buildx multiarch
       run: |
 #        docker buildx create --name multiarch
