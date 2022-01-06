@@ -5,24 +5,26 @@ INSTALLER=/etc/pivpn/install.sh
 source "${INSTALLER}"
 
 
-    # Variables are needed in the functions call later.
-    useUpdateVars=true
-    PLAT=Ubuntu
-    SUDO=
-    SUDOE=
-    
+# Variables are needed in the functions call later.
+useUpdateVars=true
+PLAT=Ubuntu
+SUDO=
+SUDOE=  
 
-    # shellcheck disable=SC1091
-    source /etc/pivpn/setupVars.conf
-
-    PROTO=$pivpnProto
-
-    rm -rf /home/"${pivpnUser}"/ovpns/*
-
-    printf "\\n::: Installation Complete!\\n\\n"
-
-    pivpn -a -n "${CLIENT_NAME}" -p "${CLIENT_PASS}" -d 1080 || true
+"${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
 
-    printf "\\n\\n::: PiVPN Service Started\\n"
-    openvpn --config /etc/openvpn/server.conf
+# shellcheck disable=SC1091
+source /etc/pivpn/setupVars.conf
+
+PROTO=$pivpnProto
+
+rm -rf /home/"${pivpnUser}"/ovpns/*
+
+printf "\\n::: Installation Complete!\\n\\n"
+
+pivpn -a -n "${CLIENT_NAME}" -p "${CLIENT_PASS}" -d 1080 || true
+
+
+printf "\\n\\n::: PiVPN Service Started\\n"
+openvpn --config /etc/openvpn/server.conf
