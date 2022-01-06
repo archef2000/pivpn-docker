@@ -7,6 +7,12 @@ RUN apt install -y -f --no-install-recommends curl ca-certificates
 
 COPY setupVars.conf /etc/pivpn/
 
+ARG pivpnFilesDir=/etc/.pivpn
+ARG PIVPN_TEST=false
+ARG SUDO=
+ARG SUDOE=
+ARG INSTALLER=/tmp/install.sh
+
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/systemctl start/d' "${INSTALLER}" \
