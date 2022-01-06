@@ -2,8 +2,6 @@
 INSTALLER=/etc/pivpn/install.sh
 mkdir -p /usr/local/src/pivpn/
 
-# shellcheck disable=SC1090
-source "${INSTALLER}"
 
 
 # Variables are needed in the functions call later.
