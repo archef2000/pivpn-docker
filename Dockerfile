@@ -1,6 +1,7 @@
 FROM debian:stretch
 
 RUN apt update
+ENV DEBIAN_FRONTEND=noninteractive
 RUN apt install -y bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
 # iptables-persistent
 RUN apt update && apt-get install -y curl software-properties-common debconf-utils git nano whiptail openvpn dhcpcd5 dnsutils expect whiptail \
