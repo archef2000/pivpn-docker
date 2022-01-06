@@ -51,5 +51,5 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
 # RUN curl -L https://install.pivpn.io -o install.sh
 
 WORKDIR /home/pivpn
-COPY run ./run
-CMD ["./run"]
+# COPY run ./run
+# CMD ["./run"]
