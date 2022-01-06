@@ -6,14 +6,14 @@ RUN apt update
 RUN apt update --fix-missing
 RUN dpkg --configure -a
 RUN apt install -f
-RUN apt install -y -f curl
-# RUN apt install -y -f grepcidr unattended-upgrades iptables-persistent 
+RUN apt install -y -f --no-install-recommends curl
+RUN apt install -y -f --no-install-recommends grepcidr unattended-upgrades iptables-persistent 
 
-# RUN apt install -y bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
+# RUN apt install -y --no-install-recommends bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
 
 # RUN apt update && apt-get install -y curl software-properties-common debconf-utils git nano whiptail openvpn dhcpcd5 dnsutils expect whiptail \
 #         && rm -rf /var/lib/apt/lists/*
-# RUN apt install -y git curl dhcpcd5
+RUN apt install -y --no-install-recommends git curl dhcpcd5
 RUN apt clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
     
