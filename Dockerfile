@@ -15,6 +15,8 @@ RUN apt update && apt-get install -y curl software-properties-common debconf-uti
 RUN apt install -y git curl dhcpcd5
 RUN apt clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
+    
+RUN mkdir -p /usr/local/src/pivpn
 
 ARG pivpnFilesDir=/etc/.pivpn
 
