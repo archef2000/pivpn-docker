@@ -20,4 +20,5 @@ RUN apt-get clean \
 
 WORKDIR /home/pivpn
 COPY run .
+RUN chmod +x /home/pivpn/run
 CMD ["./run"]    
