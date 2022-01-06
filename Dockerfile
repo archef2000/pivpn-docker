@@ -20,7 +20,8 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/systemctl start/d' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
-#    && sed -i 's/cd "${1}" || exit 1/cd "${1}" || true/' "${INSTALLER}" \
+    && sed -i 's/cd "${1}" || exit 1/sudo mkdir -p /usr/local/src
+	cd "${1}" || exit1/' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
