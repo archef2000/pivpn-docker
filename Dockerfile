@@ -9,14 +9,17 @@ RUN apt install -y -f --no-install-recommends curl ca-certificates
 
 COPY setupVars.conf /etc/pivpn/
 
-ARG pivpnFilesDir=/etc/.pivpn
+ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
+ARG PLAT=Debian
+ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
 ENV pivpnUser=pivpn
 
 ENV INSTALLER=/etc/pivpn/install.sh
+RUN curl -fsSL0 https://install.pivpn.io -o $NSTALLER
 RUN source "${INSTALLER}"
 
 RUN updatePackageCache
