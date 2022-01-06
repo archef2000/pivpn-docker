@@ -23,9 +23,6 @@ echo VPN_name "${CLIENT_NAME:=pivpn}"
 pivpn -a nopass -n "${CLIENT_NAME}" -d 1080 || true
 
 printf "\\n\\n::: PiVPN Service Started\\n"
-# openvpn --config /etc/openvpn/server.conf
+sudo systemctl enable openvpn
+openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 
-while :
-do
-	sleep 1
-done
