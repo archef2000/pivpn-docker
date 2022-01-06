@@ -48,8 +48,8 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
 #    && sed -i 's/set -e/set -eux/g' "${INSTALLER}" \
     && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure --pivpnHOST=test.com
     
-RUN curl -L https://install.pivpn.io -o install.sh
+# RUN curl -L https://install.pivpn.io -o install.sh
 
-WORKDIR /home/"${pivpnUser}"
-COPY run ./run
-CMD ["./run"]
+WORKDIR /home/pivpn
+# COPY run ./run
+# CMD ["./run"]
