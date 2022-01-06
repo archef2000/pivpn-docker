@@ -17,8 +17,8 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
     - name: docker buildx multiarch fix
       run: |
-        sudo apt purge --auto-remove qemu-user qemu-user-binfmt binfmt-support
-        sudo apt install qemu-user
+        apt purge --auto-remove qemu-user qemu-user-binfmt binfmt-support
+        apt install qemu-user
         docker buildx inspect --bootstrap
     - name: docker buildx multiarch
       run: |
