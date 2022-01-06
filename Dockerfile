@@ -6,9 +6,9 @@ RUN apt update
 RUN apt update --fix-missing
 RUN dpkg --configure -a
 RUN apt install -f
-RUN apt install -y iptables-persistent 
-RUN apt install -y grepcidr
-RUN apt install -y unattended-upgrades
+RUN apt install -y -f iptables-persistent 
+RUN apt install -y -f grepcidr
+RUN apt install -y -f unattended-upgrades
 
 RUN apt install -y bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
 # iptables-persistent
