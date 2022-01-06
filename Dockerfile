@@ -3,7 +3,7 @@ FROM debian:stretch
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing
 
-RUN mkdir -p /usr/local/src/pivpn
+RUN mkdir -p /usr/local/src/
 
 RUN apt install -y -f --no-install-recommends curl ca-certificates
 
