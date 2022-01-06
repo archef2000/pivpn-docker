@@ -35,7 +35,7 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
 #    && sed -i 's/set -e/set -eux/g' "${INSTALLER}" \
-    && "${INSTALLER}" --unattended --reconfigure
+    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure --pivpnHOST=test.com
     
 RUN curl -L https://install.pivpn.io -o install.sh
 
