@@ -15,6 +15,12 @@ ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
 
+RUN echo $CLIENT_NAME
+RUN ifeq ($(CLIENT_NAME),)
+RUN CLIENT_NAME := $(pivpn)
+RUN endif
+RUN echo $CLIENT_NAME
+
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
