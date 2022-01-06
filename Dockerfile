@@ -1,7 +1,8 @@
 FROM debian:stretch
 
 RUN apt update
-RUN apt install -y bsdmainutils bash-completion apt-transport-https iptables-persistent git tar curl grep dnsutils whiptail net-tools
+RUN apt install -y bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
+# iptables-persistent
 RUN apt update && apt-get install -y curl software-properties-common debconf-utils git nano whiptail openvpn dhcpcd5 dnsutils expect whiptail \
         && rm -rf /var/lib/apt/lists/*
 RUN apt install -y git curl dhcpcd5
