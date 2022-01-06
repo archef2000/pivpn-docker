@@ -14,21 +14,10 @@ jobs:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
       run: |
-        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-#    - name: docker buildx multiarch fix
-#      run: |
-#        apt purge --auto-remove qemu-user qemu-user-binfmt binfmt-support
-#        apt install qemu-user
-#        
-#        
+        docker login -u $DOCKER_USER -p $DOCKER_PASSWORD   
     - name: docker buildx multiarch
       run: |
         docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-#        docker buildx create --name multiarch
-#        docker buildx use multiarch
-#        docker buildx inspect --bootstrap
-
-#        docker buildx rm multiarch
         docker buildx create --name multiarch --driver docker-container --use
         docker buildx inspect --bootstrap
     - name: docker build docker
