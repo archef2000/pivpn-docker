@@ -3,7 +3,7 @@ FROM debian:stretch
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing
 
-RUN apt install -y -f --no-install-recommends curl
+RUN apt install -y -f --no-install-recommends curl ca-certificates
 
 COPY setupVars.conf /etc/pivpn/
 
