@@ -11,7 +11,12 @@ PLAT=Ubuntu
 SUDO=
 SUDOE=  
 
-"${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+    && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
+    && sed -i '/systemctl start/d' "${INSTALLER}" \
+    && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+    && chmod +x "${INSTALLER}" \
+    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
 # Set Variable if not set
 ifeq ($(CLIENT_NAME),)
