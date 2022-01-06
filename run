@@ -1,79 +1,28 @@
-#!/usr/bin/env bash
-# shellcheck disable=SC2034,SC2154
-# SC2034: foo appears unused. Verify it or export it.
-# SC2154: var is referenced but not assigned.
 
-set -eu
-
-INSTALLER=/tmp/install.sh
-
-# Skip execution when sourcing the INSTALLER
-PIVPN_TEST=true
+INSTALLER=/etc/pivpn/install.sh
 
 # shellcheck disable=SC1090
 source "${INSTALLER}"
 
-# main procedural
-{
+
     # Variables are needed in the functions call later.
     useUpdateVars=true
     PLAT=Ubuntu
     SUDO=
     SUDOE=
+    
 
     # shellcheck disable=SC1091
     source /etc/pivpn/setupVars.conf
 
     PROTO=$pivpnProto
 
-    # The right way to test if a variable is unset or not.
-    # See https://stackoverflow.com/a/13864829
-    if [ -z ${IPv4dns+x} ]; then
-        IPv4dns=$(nslookup 127.0.0.1 | grep Server: | awk '{print $2}')
-    fi
-
-    if [ -z ${PUBLICDNS+x} ]; then
-        if ! PUBLICDNS=$(dig +short myip.opendns.com @resolver1.opendns.com)
-        then
-            echo "dig failed, now trying to curl eth0.me"
-            if ! PUBLICDNS=$(curl eth0.me)
-            then
-                echo "eth0.me failed, please check your internet connection/DNS"
-                exit $?
-            fi
-        fi
-    fi
-
-    keys=(pivpnInterface IPv4addr IPv4gw IPv4dns)
-    for k in "${keys[@]}"; do
-        sed -i "s/#${k}#/${!k}/g" "${dhcpcdFile}"
-    done
-
-    # This variable is initialized in confOpenVPN but also used in confOVPN.
-    # We make it globalized so as to transit to the second function.
-    SERVER_NAME=
-
-    # Call functions in the INSTALLER
-    confOpenVPN
-    confNetwork
-    confOVPN
-
-    sed -i '0,/\(dhcp-option DNS \)/ s/\(dhcp-option DNS \).*/\1'${OVPNDNS1}'\"/' /etc/openvpn/server.conf
-    sed -i '0,/\(dhcp-option DNS \)/! s/\(dhcp-option DNS \).*/\1'${OVPNDNS2}'\"/' /etc/openvpn/server.conf
-
-    finalExports
-
-    printf "\\n::: Clean up ovpn profile folder\\n"
     rm -rf /home/"${pivpnUser}"/ovpns/*
 
     printf "\\n::: Installation Complete!\\n\\n"
 
-
-    # Generate the client ovpn profile
-    # pivpn with exit code 1 even on success
     pivpn -a -n "${CLIENT_NAME}" -p "${CLIENT_PASS}" -d 1080 || true
 
 
     printf "\\n\\n::: PiVPN Service Started\\n"
     openvpn --config /etc/openvpn/server.conf
-} 2>&1 | tee "${instalLogLoc}"
