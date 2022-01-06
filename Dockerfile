@@ -3,7 +3,7 @@ FROM debian:stretch
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing && apt upgrade -f --no-install-recommends
 
-RUN apt install -y -f --no-install-recommends systemctl grepcidr openvpn expect nano procps curl ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
+RUN apt install -y -f --no-install-recommends systemd grepcidr openvpn expect nano procps curl ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
 
 COPY setupVars.conf /etc/pivpn/
 
