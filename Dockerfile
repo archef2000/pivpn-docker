@@ -6,13 +6,14 @@ RUN apt update
 RUN apt update --fix-missing
 RUN dpkg --configure -a
 RUN apt install -f
-RUN apt install -y -f grepcidr unattended-upgrades iptables-persistent 
+RUN apt install -y -f curl
+# RUN apt install -y -f grepcidr unattended-upgrades iptables-persistent 
 
-RUN apt install -y bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
-# iptables-persistent
-RUN apt update && apt-get install -y curl software-properties-common debconf-utils git nano whiptail openvpn dhcpcd5 dnsutils expect whiptail \
-        && rm -rf /var/lib/apt/lists/*
-RUN apt install -y git curl dhcpcd5
+# RUN apt install -y bsdmainutils bash-completion apt-transport-https git tar curl grep dnsutils whiptail net-tools
+
+# RUN apt update && apt-get install -y curl software-properties-common debconf-utils git nano whiptail openvpn dhcpcd5 dnsutils expect whiptail \
+#         && rm -rf /var/lib/apt/lists/*
+# RUN apt install -y git curl dhcpcd5
 RUN apt clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
     
@@ -23,9 +24,8 @@ ARG pivpnFilesDir=/etc/.pivpn
 # RUN git clone https://github.com/pivpn/pivpn.git "${pivpnFilesDir}" \
 #        && git -C "${pivpnFilesDir}" checkout 548492832d1ae1337c3e22fd0b2b487ca1f06cb0
 
-ENV pivpnUser=pivpn
-
-RUN useradd --no-log-init -rm -s /bin/bash "${pivpnUser}"
+# ENV pivpnUser=pivpn
+# RUN useradd --no-log-init -rm -s /bin/bash "${pivpnUser}"
 
 COPY setupVars.conf /etc/pivpn/
 
