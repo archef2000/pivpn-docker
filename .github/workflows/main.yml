@@ -24,10 +24,10 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
       run: |
-        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest-arm/v5 --platform linux/arm/v5 --push
-        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest-arm64 --platform linux/arm64 --push
-        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest-amd64 --platform linux/amd64 --push
-        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest-arm/v6 --platform linux/arm/v6 --push
+        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_arm-v5 --platform linux/arm/v5 --push
+        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_arm64 --platform linux/arm64 --push
+        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_amd64 --platform linux/amd64 --push
+        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_armv6 --platform linux/arm/v6 --push
         
 #  linux/amd64,linux/arm64/v8,linux/arm/v5,linux/arm/v6 
 # ,linux/386,linux/mips64le,linux/ppc64le,linux/s390x,linux/arm64/v8,linux/amd64,linux/arm/v5
