@@ -14,9 +14,17 @@ ARG PLAT=Debian
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
+ARG INSTALLER=/var/tmp/install.sh
+
+RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+    && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
+    && sed -i '/systemctl start/d' "${INSTALLER}" \
+    && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+    && chmod +x "${INSTALLER}" \
+    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
 RUN apt clean \
-    && rm -rf /var/lib/apt/lists/* /var/tmp/*
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /et/openvpn/* /home/pivpn/ovpns
 
 WORKDIR /home/pivpn
 COPY run .
