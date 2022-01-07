@@ -26,8 +26,8 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
 RUN ls /opt/pivpn/
 RUN cp -r /opt/pivpn/ /var/tmp/pivpn/
 RUN apt clean \
-    && rm -rf /var/lib/apt/lists/*  /etc/openvpn/* /home/pivpn/ovpns/* /usr/local/src/* /etc/pivpn/openvpn/*
-    # /var/tmp/*
+    && rm -rf /var/lib/apt/lists/*  /etc/openvpn/* /home/pivpn/ovpns/*  /etc/pivpn/openvpn/*
+    # /var/tmp/* /usr/local/src/*
 RUN ls /opt/pivpn/ || true
 RUN rm -rf /opt/*
 RUN cp -rf /var/tmp/pivpn/ /opt/pivpn/
