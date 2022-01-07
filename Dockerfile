@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:stretch-20210326
 # FROM debian:stretch-20211201-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
