@@ -1,4 +1,5 @@
-FROM debian:stretch
+# FROM debian:stretch
+FROM debian:stretch-20211201-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing && apt upgrade -f --no-install-recommends
