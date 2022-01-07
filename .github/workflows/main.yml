@@ -37,12 +37,12 @@ jobs:
         archef2000/pivpn-openvpn:latest-dev \
         --amend archef2000/pivpn-openvpn:latest-amd64 \
         --amend archef2000/pivpn-openvpn:latest-armv6 \
-        --amend archef2000/pivpn-openvpn:latest-armv5 \
-        --amend archef2000/pivpn-openvpn:latest-arm64
+        --amend archef2000/pivpn-openvpn:latest-armv5
+
         docker manifest push archef2000/pivpn-openvpn:latest-dev
         
         
-        
+ #       --amend archef2000/pivpn-openvpn:latest-arm64        
         
         
         
