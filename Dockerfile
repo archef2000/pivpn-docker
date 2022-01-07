@@ -22,9 +22,11 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
-
+    
+RUN ls /opt/pivpn/
 RUN apt clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /et/openvpn/* /home/pivpn/ovpns/* /usr/local/src/* /etc/pivpn/openvpn/*
+RUN ls /opt/pivpn/
 
 WORKDIR /home/pivpn
 COPY run .
