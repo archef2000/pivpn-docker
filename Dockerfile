@@ -1,11 +1,6 @@
 FROM debian:stretch
 # FROM debian:stretch-20211201-slim
 
-RUN mkdir -p /opt/pivpn/test
-RUN apt clean \
-    && rm -rf /var/lib/apt/lists/*  /et/openvpn/* /home/pivpn/ovpns/* /usr/local/src/* /etc/pivpn/openvpn/*
-RUN ls /opt/pivpn/
-
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing && apt upgrade -f --no-install-recommends
 
