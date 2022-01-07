@@ -24,7 +24,7 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
       run: |
-        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_arm64 --platform linux/arm64 --push
+        docker build . -t $DOCKER_USER/pivpn-openvpn:latest_arm64 --platform linux/arm64 --push
         docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_amd64 --platform linux/amd64 --push
         docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_armv6 --platform linux/arm/v6 --push
         
