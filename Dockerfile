@@ -2,7 +2,7 @@ FROM debian:stretch-20210326
 # FROM debian:stretch-20211201-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt update --fix-missing && apt upgrade -f --no-install-recommends
+RUN apt update --fix-missing && apt upgrade -f -y --no-install-recommends
 
 RUN apt install -y -f --no-install-recommends sudo systemd nano procps curl ca-certificates dhcpcd5
 
