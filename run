@@ -1,6 +1,6 @@
 FILE=/etc/openvpn/easy-rsa
 FILE2=
-if [ -d $FILE ] || [ -d $FILE ]
+if [ -d $FILE ] || [ -d $FILE ] || command -v pivpn &> /dev/null
 then
    echo "OPENVPN Server exists."
    if [ -f $FILE ]
