@@ -3,6 +3,8 @@ FROM debian:stretch
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing && apt upgrade -f -y --no-install-recommends
+RUN apt autoremove
+RUN dpkg --configure -a
 
 RUN apt install -y -f --no-install-recommends sudo systemd nano procps curl ca-certificates dhcpcd5
 
