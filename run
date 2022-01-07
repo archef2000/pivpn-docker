@@ -1,28 +1,44 @@
+FILE=/etc/openvpn/easy-rsa
+FILE2=
+if [ -d $FILE ] || [ -d $FILE ]
+then
+   echo "OPENVPN Server exists."
+   if [ -f $FILE ]
+   then
+      echo "Client Certificate exists."
+   else
+      echo "Client Certificate does not exist."
+      echo "Generating Client Certificate."
+      pivpn -a nopass -n "${CLIENT_NAME}" -d 1080 || true
+   fi
+   Skipping Installation 
+else
+   echo "OPENVPN Server does not exist."
+   
+   INSTALLER=/etc/pivpn/install.sh
+   mkdir -p /usr/local/src/pivpn/
 
-INSTALLER=/etc/pivpn/install.sh
-mkdir -p /usr/local/src/pivpn/
+   # Variables are needed in the functions call later.
+   useUpdateVars=true
+   PLAT=Debian
+   SUDO=
+   SUDOE=  
 
-# Variables are needed in the functions call later.
-useUpdateVars=true
-PLAT=Debian
-SUDO=
-SUDOE=  
+   curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+       && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
+       && sed -i '/systemctl start/d' "${INSTALLER}" \
+       && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+       && chmod +x "${INSTALLER}" \
+       && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+   
+   # rm -rf /home/"${pivpnUser}"/ovpns/*
+   
+   echo VPN_name "${CLIENT_NAME:=pivpn}"
+   pivpn -a nopass -n "${CLIENT_NAME}" -d 1080 || true
+   
+   printf "\\n::: Installation Complete!\\n\\n"
+fi
 
-curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
-    && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
-    && sed -i '/systemctl start/d' "${INSTALLER}" \
-    && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
-    && chmod +x "${INSTALLER}" \
-    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
-
-rm -rf /home/"${pivpnUser}"/ovpns/*
-
-printf "\\n::: Installation Complete!\\n\\n"
-
-echo VPN_name "${CLIENT_NAME:=pivpn}"
-pivpn -a nopass -n "${CLIENT_NAME}" -d 1080 || true
-
-printf "\\n\\n::: PiVPN Service Started\\n"
 systemctl enable openvpn
+printf "\\n\\n::: PiVPN Service Started\\n"
 openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
-
