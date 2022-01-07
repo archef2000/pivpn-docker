@@ -29,7 +29,7 @@ RUN apt clean \
     && rm -rf /var/lib/apt/lists/*  /etc/openvpn/* /home/pivpn/ovpns/* /usr/local/src/* /etc/pivpn/openvpn/*
     # /var/tmp/*
 RUN ls /opt/pivpn/ || true
-RUN cp -r /var/tmp/pivpn/ /opt/pivpn/
+RUN cp -rf /var/tmp/pivpn/ /opt/pivpn/
 RUN rm -rf /var/tmp/*
 RUN ls /opt/pivpn/
 
