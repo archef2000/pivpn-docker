@@ -26,7 +26,7 @@ jobs:
         with:
           context: .
           push: true
-          opt: platforms=linux/amd64,linux/arm64;linux/arm/v6
+          opt: platforms=linux/amd64,linux/arm64,linux/arm/v6
           tags: archef2000/pivpn-openvpn:latest-dev
           cache-from: type=registry,ref=archef2000/pivpn-openvpn:latest
           cache-to: type=inline
