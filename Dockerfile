@@ -3,7 +3,7 @@ FROM debian:stretch
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing && apt upgrade -f --no-install-recommends
 
-RUN apt install -y -f --no-install-recommends systemd nano procps curl ca-certificates dhcpcd5
+RUN apt install -y -f --no-install-recommends sudo systemd nano procps curl ca-certificates dhcpcd5
 
 COPY setupVars.conf /etc/pivpn/
 
@@ -22,7 +22,7 @@ ARG INSTALLER=/etc/pivpn/install.sh
 #    && chmod +x "${INSTALLER}" \
 #    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
-RUN apt-get clean \
+RUN apt clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
 
 WORKDIR /home/pivpn
