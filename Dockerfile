@@ -24,8 +24,8 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
 RUN apt clean \
-    && rm -rf /var/lib/apt/lists/* /var/tmp/* /et/openvpn/* /home/pivpn/ovpns/* /etc/pivpn/* /usr/local/src/*
-
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /et/openvpn/* /home/pivpn/ovpns/* /usr/local/src/*
+# /etc/pivpn/*
 WORKDIR /home/pivpn
 COPY run .
 RUN chmod +x /home/pivpn/run
