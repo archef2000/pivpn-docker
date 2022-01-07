@@ -26,6 +26,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: archef2000/pivpn-openvpn:latest
+          tags: archef2000/pivpn-openvpn:latest-dev
           cache-from: type=registry,ref=archef2000/pivpn-openvpn:latest
           cache-to: type=inline
