@@ -18,7 +18,7 @@ ARG SUDO=sudo
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
 
-RUN sudo apt-get install openvpn git dhcpcd5 tar wget grep iptables-persistent dnsutils expect whiptail
+RUN sudo apt-get install -y -f --no-install-recommends openvpn git dhcpcd5 tar wget grep iptables-persistent dnsutils expect whiptail
 RUN sudo mv /root/bin/git ~/git_sanity_check
 
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
