@@ -1,4 +1,4 @@
-name: Docker PIVPN ARM64
+name: PIVPN ARM64
 
 on:
     workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
       run: |
-        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:latest_arm64 --platform linux/arm64/v8 --push
+        docker buildx build . -t $DOCKER_USER/pivpn-openvpn:arm64 --platform linux/arm64 --push
 #        docker push archef2000/pivpn-openvpn:latest_arm64
         
 #  linux/amd64,linux/arm64/v8,linux/arm/v5,linux/arm/v6 
