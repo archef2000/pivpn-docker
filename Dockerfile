@@ -21,7 +21,7 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i '/systemctl start/d' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
-    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+    && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
