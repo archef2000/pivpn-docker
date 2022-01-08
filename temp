@@ -1,5 +1,3 @@
-https://github.com/pivpn/pivpn/blob/master/examples/unattended_wireguard_example.conf
-
 /tmp/install.sh --reconfigure --unattended /etc/pivpn/setupVars.conf --pivpnHOST=test.com
 
 
