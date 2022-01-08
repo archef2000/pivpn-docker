@@ -18,6 +18,9 @@ ARG SUDO=sudo
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
 
+RUN ls /usr/local/src/
+RUN rm -rf /usr/local/src/*
+
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/systemctl start/d' "${INSTALLER}" \
