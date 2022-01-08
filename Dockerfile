@@ -18,15 +18,17 @@ ARG SUDO=sudo
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
 
-RUN ls /usr/local/src/
-RUN rm -rf /usr/local/src/*
+RUN sudo apt-get install openvpn git dhcpcd5 tar wget grep iptables-persistent dnsutils expect whiptail
+RUN sudo mv /root/bin/git ~/git_sanity_check
 
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/systemctl start/d' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+    && sed -i '/install_dependent_packages #/d' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
-    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+    && sudo bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+RUN sudo mv ~/git_sanity_check /root/bin/git
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
