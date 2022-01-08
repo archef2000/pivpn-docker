@@ -1,5 +1,7 @@
 FROM debian:stretch
 
+RUN uname -a || true
+
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt update --fix-missing && apt upgrade -f --no-install-recommends
 
@@ -30,6 +32,8 @@ RUN sudo apt-get install -y -f openvpn git dhcpcd5 tar wget grep iptables-persis
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/*
+
+RUN uname -a || true
 
 WORKDIR /home/pivpn
 COPY run .
