@@ -1,5 +1,5 @@
-FROM debian:stretch
 # FROM debian:stretch-20211201-slim # -20210326
+FROM debian:stretch
 
 RUN uname -a
 
@@ -9,7 +9,7 @@ RUN apt update --fix-missing && apt upgrade -f -y --no-install-recommends
 RUN apt install -y -f --no-install-recommends sudo systemd nano procps curl ca-certificates dhcpcd5 \
     tar grep dnsutils whiptail net-tools bsdmainutils bash-completion git tar grep dnsutils whiptail \
     net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent dhcpcd5 \
-    iptables-persistent apt-transport-https 
+    iptables-persistent apt-transport-https unattended-upgrades
 
 COPY setupVars.conf /etc/pivpn/
 
