@@ -19,7 +19,7 @@ ARG PLAT=Debian
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
-ARG INSTALLER=/var/tmp/install.sh
+ARG INSTALLER=/etc/pivpn/install.sh
 
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
