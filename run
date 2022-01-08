@@ -2,9 +2,8 @@
 
 echo Container Started
 echo  
-DIR=/etc/openvpn/easy-rsa
-FILE=/home/pivpn/ovpns/"${CLIENT_NAME:=pivpn}".ovpn
-if [ -f $DIR ]
+FILE=/etc/openvpn/server.conf
+if [ -f $FILE ]
 then
    echo "OPENVPN Server exists."
    echo "Generating Client Certificate."
