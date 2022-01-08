@@ -1,4 +1,4 @@
-name: Docker PIVPN
+name: PIVPN
 
 on:
     workflow_dispatch:
