@@ -1,3 +1,2 @@
 # pivpn-openvpn
-pivpn docker container 
-remake from https://github.com/ljishen/pivpn-docker
+Docker Container for https://github.com/pivpn/pivpn
