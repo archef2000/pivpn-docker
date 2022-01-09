@@ -8,6 +8,8 @@ RUN apt-get install -y -f curl systemd grepcidr openvpn expect nano procps ca-ce
 
 COPY sh/ /home/pivpn/
 
+RUN /home/pivpn/setupVars.sh
+
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
 ARG PLAT=Debian
