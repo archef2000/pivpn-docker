@@ -1,4 +1,4 @@
-name: Docker SSLH 
+name: Docker PIVPN
 
 on:
     workflow_dispatch:
