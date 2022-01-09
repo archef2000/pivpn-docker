@@ -2,6 +2,7 @@
 
 echo Container Started
 echo  
+CLIENT_PW="-p $CLIENT_PASSWD"
 FILE=/etc/openvpn/server.conf
 if [ -f $FILE ]
 then
@@ -27,10 +28,15 @@ else
        && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
    
    echo VPN_name "${CLIENT_NAME:=pivpn}"
-   pivpn -a nopass -n "${CLIENT_NAME}" -d 1080 || true
+   
+   pivpn -a  "${CLIENT_PW:=nopass}" -n "${CLIENT_NAME}" -d 1080 || true
    
    printf "\\n::: Installation Complete!\\n\\n"
 fi
+
+# IPTables Fix
+/sbin/iptables -P FORWARD ACCEPT
+/sbin/iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
 
 systemctl enable openvpn
 printf "\\n\\n::: PiVPN Service Started\\n"
