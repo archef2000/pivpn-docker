@@ -9,7 +9,6 @@ else
 fi
 
 cat << EOF > /etc/pivpn/setupVars.conf
-ENCRYPT=256
 USING_UFW=0
 install_user=pivpn
 install_home=/home/pivpn
