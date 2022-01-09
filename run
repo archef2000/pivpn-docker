@@ -6,8 +6,6 @@ if [ -f $FILE ]
 then
    echo "OPENVPN Server exists."
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
-   echo "Generating Client Certificate."
-   pivpn -a nopass -n "${CLIENT_NAME:=pivpn}" -d 1080 || true
 else
    echo "OPENVPN Server does not exist."
    bash /etc/pivpn/setupVars.sh
@@ -27,13 +25,12 @@ else
    
    echo VPN_name "${CLIENT_NAME:=pivpn}"
    
-   CLIENT_PW="-p $CLIENT_PASSWD"
-   
-   
    printf "\\n::: Installation Complete!\\n\\n"
 fi
 
 # Generate Certificate
+echo "Generating Client Certificate."
+CLIENT_PW="-p $CLIENT_PASSWD"
 pivpn -a -n "${CLIENT_NAME}" "${CLIENT_PW:=nopass}" -d 1080 || true
 
 # IPTables Fix
