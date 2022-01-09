@@ -15,7 +15,7 @@ pivpnPROTO=${PROTO:=udp}
 pivpnPORT=${PORT:=1194}
 pivpnDNS1=${DNS1:=8.8.8.8}
 pivpnDNS2=${DNS2:=8.8.4.4}
-pivpnHOST=${HOST:=pivpn}
+pivpnHOST=${HOST:=example.com}
 pivpnSEARCHDOMAIN=${SEARCHDOMAIN:=}
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
 pivpnENCRYPT=${ENCRYPT:=256}
