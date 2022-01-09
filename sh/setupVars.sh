@@ -1,7 +1,6 @@
 #!/bin/bash
 
 cat << EOF > /etc/pivpn/setupVars.conf
-
 USING_UFW=0
 IPv4dev=eth0
 pivpnInterface=eth0
@@ -18,7 +17,7 @@ pivpnDNS2=${DNS2:=8.8.4.4}
 pivpnHOST=${HOST:=example.com}
 pivpnSEARCHDOMAIN=${SEARCHDOMAIN:=}
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
-pivpnENCRYPT=${ENCRYPT:=2048} # 2048, 3072, or 4096
+pivpnENCRYPT=${ENCRYPT:=256} # 2048, 3072, or 4096
 USE_PREDEFINED_DH_PARAM=${PREDEFINED_DH_PARAM:=1}
 pivpnNET=${NET:=10.8.0.0}
 subnetClass=${subnetClass:=24}
