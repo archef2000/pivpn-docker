@@ -5,14 +5,14 @@ IPV4DNS=${IPV4DNS:=172.17.0.1}
 cat << EOF > /etc/pivpn/setupVars.conf
 ENCRYPT=256
 USING_UFW=0
-IPv4dev=eth0
-pivpnInterface=eth0
 install_user=pivpn
 install_home=/home/pivpn
 VPN=openvpn
 pivpnDEV=tun0
 UNATTUPG=1
 IPv4dns=$IPV4DNS
+IPv4dev=${INTERFACE:=eth0}
+pivpnInterface=${INTERFACE:=eth0}
 pivpnPROTO=${PROTO:=udp}
 pivpnPORT=${PORT:=1194}
 pivpnDNS1=${DNS1:=8.8.8.8}
