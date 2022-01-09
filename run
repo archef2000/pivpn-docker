@@ -28,10 +28,13 @@ else
    echo VPN_name "${CLIENT_NAME:=pivpn}"
    
    CLIENT_PW="-p $CLIENT_PASSWD"
-   pivpn -a -n "${CLIENT_NAME}" "${CLIENT_PW:=nopass}" -d 1080 || true
+   
    
    printf "\\n::: Installation Complete!\\n\\n"
 fi
+
+# Generate Certificate
+pivpn -a -n "${CLIENT_NAME}" "${CLIENT_PW:=nopass}" -d 1080 || true
 
 # IPTables Fix
 /sbin/iptables -P FORWARD ACCEPT
