@@ -8,6 +8,7 @@ RUN apt-get install -y -f curl systemd grepcidr openvpn expect nano procps ca-ce
 
 COPY sh/ /home/pivpn/
 RUN chmod +x /home/pivpn/setupVars.sh && chmod +x /home/pivpn/reconfigure.sh
+RUN mkdir -p /etc/pivpn/
 RUN /home/pivpn/setupVars.sh
 
 ARG pivpnFilesDir=/etc/pivpn
