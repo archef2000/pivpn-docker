@@ -6,10 +6,10 @@ RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommend
 RUN apt-get install -y -f curl systemd grepcidr openvpn expect nano procps ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
 # 
 
-COPY sh/ /home/pivpn/
-RUN chmod +x /home/pivpn/setupVars.sh && chmod +x /home/pivpn/reconfigure.sh
-RUN mkdir -p /etc/pivpn/
-RUN /home/pivpn/setupVars.sh
+COPY sh/ /etc/pivpn/
+RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
+# RUN mkdir -p /etc/pivpn/
+RUN /etc/pivpn/setupVars.sh
 
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
