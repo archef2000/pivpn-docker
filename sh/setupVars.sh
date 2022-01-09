@@ -10,6 +10,7 @@ install_home=/home/pivpn
 VPN=openvpn
 pivpnDEV=tun0
 UNATTUPG=1
+IPv4dns=${IPV4DNS:=172.17.0.1}
 pivpnPROTO=${PROTO:=udp}
 pivpnPORT=${PORT:=1194}
 pivpnDNS1=${DNS1:=8.8.8.8}
