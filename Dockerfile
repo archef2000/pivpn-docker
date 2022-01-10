@@ -9,8 +9,10 @@ RUN apt-get install -y -f curl systemd grepcidr openvpn expect nano procps ca-ce
 COPY sh/ /etc/pivpn/
 RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
 # RUN mkdir -p /etc/pivpn/
-RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=2048}/pivpnENCRYPT=${ENCRYPT:=256}/g' /etc/pivpn/setupVars.sh
+# RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=2048}/pivpnENCRYPT=${ENCRYPT:=256}/g' /etc/pivpn/setupVars.sh
+ENV ENCRYPT=256
 RUN /etc/pivpn/setupVars.sh
+ENV ENCRYPT
 
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
@@ -19,6 +21,7 @@ ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
+
 
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
