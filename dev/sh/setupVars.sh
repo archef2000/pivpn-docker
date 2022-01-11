@@ -1,7 +1,8 @@
 #!/bin/bash
 
+# VPN
 VPN=${VPN:=openvpn}
-
+if [ $VPN = openvpn ]; then; VPNPORT=1194; else; VPNPORT=51820; fi
 
 #2.4 Openvpn
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
