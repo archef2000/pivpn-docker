@@ -4,10 +4,10 @@ IPV4DNS=${IPV4DNS:=172.17.0.1}
 
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
 
-if [ $TWO_POINT_FOUR = "1" ]; then
-   ENCRYPTION=256
+if [ $TWO_POINT_FOUR = "0" ]; then
+   ENCRYPTION=2048
 else
-  ENCRYPTION=2048
+  ENCRYPTION=256
 fi
 
 cat << EOF > /etc/pivpn/setupVars.conf
