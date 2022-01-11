@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IPV4DNS=${IPV4DNS:=1.1.1.1}
+# IPV4DNS=${IPV4DNS:=1.1.1.1}
 # VPN
 VPN=${VPN:=openvpn}
 if [ $VPN = openvpn ]; then VPNPORT=1194; else VPNPORT=51820; fi
@@ -8,7 +8,7 @@ if [ $VPN = openvpn ]; then VPNPORT=1194; else VPNPORT=51820; fi
 #2.4 Openvpn
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
 if [ $TWO_POINT_FOUR = "0" ]; then ENCRYPTION=2048; else ENCRYPTION=256; fi
-
+# IPv4dns=$IPV4DNS
 
 cat << EOF > /etc/pivpn/setupVars.conf
 # All
@@ -25,7 +25,7 @@ IPv4dev=${INTERFACE:=eth0}
 UNATTUPG=1
 VPN=$VPN
 #OPENVPN
-IPv4dns=$IPV4DNS
+
 TWO_POINT_FOUR=$TWO_POINT_FOUR
 pivpnENCRYPT=${ENCRYPT:="$ENCRYPTION"} # 2048, 3072, 4096 or 256, 384, 521
 USE_PREDEFINED_DH_PARAM=${PREDEFINED_DH_PARAM:=1}
