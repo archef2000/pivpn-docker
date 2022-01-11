@@ -8,17 +8,17 @@ RUN apt-get install -y -f curl systemd grepcidr sudo openvpn expect nano procps 
 
 COPY sh/ /etc/pivpn/
 RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
+# RUN mkdir -p /etc/pivpn/
+RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=2048}/pivpnENCRYPT=${ENCRYPT:=256}/g' /etc/pivpn/setupVars.sh
 RUN /etc/pivpn/setupVars.sh
 
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
 ARG PLAT=Debian
 ARG useUpdateVars=true
-ARG SUDO=sudo
+ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
-RUN sudo mkdir -p -v /usr/local/src/
-RUN sudo chown root:staff -R /usr/local/src/
 
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
