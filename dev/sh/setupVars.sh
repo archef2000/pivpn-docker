@@ -1,30 +1,39 @@
 #!/bin/bash
 
-IPV4DNS=${IPV4DNS:=172.17.0.1}
+VPN=${VPN:=openvpn}
 
-# 2.4 Openvpn
+
+#2.4 Openvpn
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
 if [ $TWO_POINT_FOUR = "0" ]; then; ENCRYPTION=2048; else; ENCRYPTION=256; fi
 
+
 cat << EOF > /etc/pivpn/setupVars.conf
-USING_UFW=0
+# All
 install_user=pivpn
 install_home=/home/pivpn
-VPN=openvpn
-pivpnDEV=tun0
-UNATTUPG=1
-IPv4dns=$IPV4DNS
-IPv4dev=${INTERFACE:=eth0}
-pivpnInterface=${INTERFACE:=eth0}
 pivpnPROTO=${PROTO:=udp}
-pivpnPORT=${PORT:=1194}
+pivpnPORT=${PORT:=VPNPORT}
 pivpnDNS1=${DNS1:=8.8.8.8}
 pivpnDNS2=${DNS2:=8.8.4.4}
 pivpnHOST=${HOST:=example.com}
-pivpnSEARCHDOMAIN=${SEARCHDOMAIN:=}
-TWO_POINT_FOUR=$TWO_POINT_FOUR
-pivpnENCRYPT=${ENCRYPT:="$ENCRYPTION"} # 2048, 3072, or 4096
-USE_PREDEFINED_DH_PARAM=${PREDEFINED_DH_PARAM:=1}
 pivpnNET=${NET:=10.8.0.0}
 subnetClass=${subnetClass:=24}
+IPv4dev=${INTERFACE:=eth0}
+UNATTUPG=1
+VPN=$VPN
+
+#OPENVPN
+TWO_POINT_FOUR=$TWO_POINT_FOUR
+pivpnENCRYPT=${ENCRYPT:="$ENCRYPTION"} # 2048, 3072, 4096 or 256, 384, 521
+USE_PREDEFINED_DH_PARAM=${PREDEFINED_DH_PARAM:=1}
+
+# Wireguard
+ALLOWED_IPS="0.0.0.0/0, ::0/0"
+pivpnMTU=1420
+pivpnPERSISTENTKEEPALIVE=25
+
+
 EOF
+# pivpnDEV=tun0; IPv4dns=$IPV4DNS; pivpnInterface=${INTERFACE:=eth0}; pivpnSEARCHDOMAIN=${SEARCHDOMAIN:=}; USING_UFW=0
+# IPV4DNS=${IPV4DNS:=172.17.0.1}
