@@ -8,6 +8,8 @@ else
   ENCRYPTION=2048
 fi
 
+TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
+
 cat << EOF > /etc/pivpn/setupVars.conf
 USING_UFW=0
 install_user=pivpn
