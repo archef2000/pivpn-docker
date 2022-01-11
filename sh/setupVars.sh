@@ -2,13 +2,11 @@
 
 IPV4DNS=${IPV4DNS:=172.17.0.1}
 
-if [ $TWO_POINT_FOUR = "1" ]; then
-   ENCRYPTION=256
-else
-  ENCRYPTION=2048
-fi
-
+# 2.3 Openvpn
 TWO_POINT_FOUR=${TWO_POINT_FOUR:=1}
+if [ $TWO_POINT_FOUR = "1" ]; then; ENCRYPTION=256; else; ENCRYPTION=2048; fi
+
+
 
 cat << EOF > /etc/pivpn/setupVars.conf
 USING_UFW=0
