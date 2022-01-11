@@ -32,7 +32,7 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
 RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=256}/pivpnENCRYPT=${ENCRYPT:=2048}/g' /etc/pivpn/setupVars.sh
 
 RUN apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/*
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/*
 
 WORKDIR /home/pivpn
 COPY run .
