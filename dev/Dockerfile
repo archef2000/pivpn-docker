@@ -1,23 +1,14 @@
 FROM debian:stretch-20211011
 
 ENV DEBIAN_FRONTEND=noninteractive
-#RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
 
-#RUN apt-get install -y -f curl systemd grepcidr openvpn expect nano procps ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
-# 
+RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
+RUN apt-get install -y -f curl systemd nano procps ca-certificates grep dhcpcd5 iptables-persistent
+# grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
 
 COPY sh/ /etc/pivpn/
 RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
-# RUN mkdir -p /etc/pivpn/
-# RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=2048}/pivpnENCRYPT=${ENCRYPT:=256}/g' /etc/pivpn/setupVars.sh
-#ENV ENCRYPT=256
 RUN /etc/pivpn/setupVars.sh
-#ENV ENCRYPT
-
-RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-
-RUN apt-get install -y -f curl systemd grepcidr openvpn expect nano procps ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
-# 
 
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
@@ -32,8 +23,6 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
-    
-#RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=256}/pivpnENCRYPT=${ENCRYPT:=2048}/g' /etc/pivpn/setupVars.sh
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/*
