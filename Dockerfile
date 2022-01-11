@@ -12,7 +12,7 @@ RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
 # RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=2048}/pivpnENCRYPT=${ENCRYPT:=256}/g' /etc/pivpn/setupVars.sh
 ENV ENCRYPT=256
 RUN /etc/pivpn/setupVars.sh
-ENV ENCRYPT
+RUN ENCRYPT=
 
 ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
