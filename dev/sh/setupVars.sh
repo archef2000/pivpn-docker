@@ -14,7 +14,7 @@ cat << EOF > /etc/pivpn/setupVars.conf
 install_user=pivpn
 install_home=/home/pivpn
 pivpnPROTO=${PROTO:=udp}
-pivpnPORT=${PORT:=VPNPORT}
+pivpnPORT=${PORT:=$VPNPORT}
 pivpnDNS1=${DNS1:=8.8.8.8}
 pivpnDNS2=${DNS2:=8.8.4.4}
 pivpnHOST=${HOST:=example.com}
