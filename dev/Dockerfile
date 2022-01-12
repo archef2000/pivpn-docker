@@ -14,7 +14,7 @@ ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
 ARG PLAT=Debian
 ARG useUpdateVars=true
-ARG SUDO=sudo
+ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
 RUN mkdir -p -v /usr/local/src/pivpn/
