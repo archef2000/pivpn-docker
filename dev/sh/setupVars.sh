@@ -22,6 +22,7 @@ pivpnNET=${NET:=10.8.0.0}
 subnetClass=${subnetClass:=24}
 IPv4dev=${INTERFACE:=eth0}
 UNATTUPG=1
+pivpnInterface=${INTERFACE:=eth0}
 VPN=$VPN
 
 #OPENVPN
@@ -33,7 +34,6 @@ USE_PREDEFINED_DH_PARAM=${PREDEFINED_DH_PARAM:=1}
 ALLOWED_IPS="0.0.0.0/0, ::0/0"
 pivpnMTU=1420
 pivpnPERSISTENTKEEPALIVE=25
-
 
 EOF
 # pivpnDEV=tun0; IPv4dns=$IPV4DNS; pivpnInterface=${INTERFACE:=eth0}; pivpnSEARCHDOMAIN=${SEARCHDOMAIN:=}; USING_UFW=0
