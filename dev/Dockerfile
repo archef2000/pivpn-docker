@@ -1,4 +1,4 @@
-FROM ubunt:latest
+FROM ubuntu:latest
 #debian:stretch-20211011
 
 ENV DEBIAN_FRONTEND=noninteractive
