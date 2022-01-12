@@ -22,6 +22,7 @@ RUN mkdir -p -v /usr/local/src/pivpn/
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+    && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
