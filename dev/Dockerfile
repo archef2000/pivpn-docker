@@ -2,6 +2,8 @@ FROM ubuntu:latest
 #debian:stretch-20211011
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV XDG_RUNTIME_DIR=/run/user/`id -u`
+
 
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
 RUN apt-get install -y -f --no-install-recommends systemd sudo curl systemd iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
