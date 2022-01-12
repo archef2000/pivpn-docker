@@ -33,8 +33,8 @@ echo "Generating Client Certificate."
 pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
 
 # IPTables Fix
-sudo /sbin/iptables -P FORWARD ACCEPT
-sudo /sbin/iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+iptables -P FORWARD ACCEPT
+iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
 
 systemctl enable openvpn
 printf "\\n\\n::: PiVPN Service Started\\n"
