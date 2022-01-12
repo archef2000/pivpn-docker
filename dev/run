@@ -30,8 +30,7 @@ fi
 
 # Generate Certificate
 echo "Generating Client Certificate."
-CLIENT_PW="-p $CLIENT_PASSWD"
-pivpn -a -n "${CLIENT_NAME}" "${CLIENT_PW:=nopass}" -d 1080 || true
+pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
 
 # IPTables Fix
 /sbin/iptables -P FORWARD ACCEPT
