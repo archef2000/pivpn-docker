@@ -11,6 +11,7 @@ if [ $TWO_POINT_FOUR = "0" ]; then ENCRYPTION=2048; else ENCRYPTION=256; fi
 
 cat << EOF > /etc/pivpn/setupVars.conf
 # All
+PLAT=Ubuntu
 install_user=pivpn
 install_home=/home/pivpn
 pivpnPROTO=${PROTO:=udp}
