@@ -6,16 +6,17 @@ RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
 
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends systemd sudo curl systemd iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
+RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
 # grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
 
-COPY sh/ /etc/pivpn/
-RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
-RUN /etc/pivpn/setupVars.sh
+COPY sh/ /usr/local/bin/
+RUN . /usr/local/bin/setupVars && . /usr/local/bin/reconfigure
+RUN chmod +x /etc/pivpn/setupVars && chmod +x /etc/pivpn/reconfigure
+RUN setupVars
 
-ARG pivpnFilesDir=/etc/pivpn
+
 ARG PIVPN_TEST=false
-ARG PLAT=Debian
+ARG PLAT=ubuntu
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
