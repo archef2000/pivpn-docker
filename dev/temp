@@ -11,4 +11,9 @@ $SUDO ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 Z 2310
 
 
+wireguard-tools
+qrencode
 
+only openvpn
+linux-headers-amd64
+wireguard-dkms
