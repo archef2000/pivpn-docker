@@ -12,6 +12,7 @@ RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd 
 COPY sh/ /usr/local/bin/
 RUN . /usr/local/bin/setupVars && . /usr/local/bin/reconfigure
 RUN chmod +x /etc/pivpn/setupVars && chmod +x /etc/pivpn/reconfigure
+RUN mkdir /etc/pivpn/
 RUN setupVars
 
 
