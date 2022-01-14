@@ -56,4 +56,14 @@ else
    echo VPN_name "${CLIENT_NAME:=pivpn}"
    
    printf "\\n::: Installation Complete!\\n\\n"
+   printf "\\n\\n::: PiVPN Service Started\\n"
+   if [ "$VPN" = wireguard ]
+   then
+      wg-quick up /etc/wireguard/wg0.conf
+      while :;do sleep 3; done
+      pivpn -a -n ${CLIENT_NAME} || true
+   else
+      systemctl enable openvpn
+      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+      pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
 fi   
