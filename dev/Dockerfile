@@ -2,7 +2,7 @@ FROM ubuntu:latest
 #debian:stretch-20211011
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV XDG_RUNTIME_DIR=/run/user/`id -u`
+RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
 
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
