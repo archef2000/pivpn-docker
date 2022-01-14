@@ -12,12 +12,24 @@ then
       echo "Starting Wireguard"
       apt update && apt install -y --no-install-recommends wireguard-tools qrencode
    else
+      VPN=openvpn
       echo "Starting Openvpn"
       apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
-      
+      # Generate Certificate
+      echo "Generating Client Certificate."
+      pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+
+      # IPTables Fix
+      sudo iptables -P FORWARD ACCEPT
+      sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+
+      systemctl enable openvpn
+      printf "\\n\\n::: PiVPN Service Started\\n"
+      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+   fi   
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
 else
-   echo "OPENVPN Server does not exist."
+   echo "VPN Server does not exist."
    bash setupVars
    INSTALLER=/etc/pivpn/install.sh
    mkdir -p /usr/local/src/pivpn/
@@ -37,15 +49,3 @@ else
    
    printf "\\n::: Installation Complete!\\n\\n"
 fi
-
-# Generate Certificate
-echo "Generating Client Certificate."
-pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
-
-# IPTables Fix
-sudo iptables -P FORWARD ACCEPT
-sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-
-systemctl enable openvpn
-printf "\\n\\n::: PiVPN Service Started\\n"
-openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
