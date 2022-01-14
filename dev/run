@@ -6,32 +6,6 @@ echo Container Started
 if [ -f /etc/openvpn/server.conf ] || [ -f /etc/wireguard/wg0.conf ]
 then
    echo "VPN Server exists"
-   if [ -f /etc/wireguard/wg0.conf ]
-   then
-      VPN=wireguard
-      echo "Starting Wireguard"
-      apt update && apt install -y --no-install-recommends wireguard-tools qrencode
-      # Generate Certificate
-      echo "Generating Client Certificate."
-      pivpn -a -n ${CLIENT_NAME} || true
-      systemctl enable wg-quick@wg0.service
-      systemctl start wg-quick@wg0.service
-   else
-      VPN=openvpn
-      echo "Starting Openvpn"
-      apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
-      # Generate Certificate
-      echo "Generating Client Certificate."
-      pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
-
-      # IPTables Fix
-      sudo iptables -P FORWARD ACCEPT
-      sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-
-      systemctl enable openvpn
-      printf "\\n\\n::: PiVPN Service Started\\n"
-      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
-   fi   
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
 else
    echo "VPN Server does not exist."
@@ -55,3 +29,30 @@ else
    
    printf "\\n::: Installation Complete!\\n\\n"
 fi
+
+if [ -f /etc/wireguard/wg0.conf ]
+then
+   VPN=wireguard
+   echo "Starting Wireguard"
+   apt update && apt install -y --no-install-recommends wireguard-tools qrencode
+   # Generate Certificate
+   echo "Generating Client Certificate."
+   pivpn -a -n ${CLIENT_NAME} || true
+   systemctl enable wg-quick@wg0.service
+   systemctl start wg-quick@wg0.service
+else
+   VPN=openvpn
+   echo "Starting Openvpn"
+   apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
+   # Generate Certificate
+   echo "Generating Client Certificate."
+   pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+
+   # IPTables Fix
+   sudo iptables -P FORWARD ACCEPT
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+
+   systemctl enable openvpn
+   printf "\\n\\n::: PiVPN Service Started\\n"
+   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+fi   
