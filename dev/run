@@ -1,10 +1,20 @@
 #!/bin/bash
 
 echo Container Started
-FILE=/etc/openvpn/server.conf
-if [ -f $FILE ]
+# OVPN=/etc/openvpn/server.conf
+# WG=/etc/wireguard/wg0.conf
+if [ -f /etc/openvpn/server.conf ] || [ -f /etc/wireguard/wg0.conf ]
 then
-   echo "OPENVPN Server exists."
+   echo "VPN Server exists"
+   if [ -f /etc/wireguard/wg0.conf ]
+   then
+      VPN=wireguard
+      echo "Starting Wireguard"
+      apt update && apt install -y --no-install-recommends wireguard-tools qrencode
+   else
+      echo "Starting Openvpn"
+      apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
+      
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
 else
    echo "OPENVPN Server does not exist."
