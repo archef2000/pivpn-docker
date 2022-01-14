@@ -10,7 +10,7 @@ RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd 
 # grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
 
 COPY sh/ /usr/local/bin/
-RUN . /usr/local/bin/setupVars && . /usr/local/bin/reconfigure
+RUN bash . /usr/local/bin/setupVars && bash . /usr/local/bin/reconfigure
 RUN chmod +x /etc/pivpn/setupVars && chmod +x /etc/pivpn/reconfigure
 RUN mkdir /etc/pivpn/
 RUN setupVars
