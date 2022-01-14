@@ -11,6 +11,11 @@ then
       VPN=wireguard
       echo "Starting Wireguard"
       apt update && apt install -y --no-install-recommends wireguard-tools qrencode
+      # Generate Certificate
+      echo "Generating Client Certificate."
+      pivpn -a -n ${CLIENT_NAME} || true
+      systemctl enable wg-quick@wg0.service
+      systemctl start wg-quick@wg0.service
    else
       VPN=openvpn
       echo "Starting Openvpn"
