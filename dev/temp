@@ -1,0 +1,12 @@
+unlink /etc/bash_completion.d/pivpn
+unlink /usr/local/bin/pivpn
+unlink /opt/pivpn
+
+
+$SUDO ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
+$SUDO ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
+$SUDO ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
+# shellcheck disable=SC1091
+. /etc/bash_completion.d/pivpn
+Z 2310
+
