@@ -13,7 +13,7 @@ COPY sh/ /usr/local/bin/
 # RUN bash . /usr/local/bin/setupVars && bash . /usr/local/bin/reconfigure
 # RUN chmod +x /etc/pivpn/setupVars && chmod +x /etc/pivpn/reconfigure
 RUN mkdir /etc/pivpn/
-RUN setupVars
+RUN sudo bash setupVars
 
 
 ARG PIVPN_TEST=false
