@@ -38,8 +38,10 @@ then
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME} || true
-   systemctl enable wg-quick@wg0.service
-   systemctl start wg-quick@wg0.service
+   #systemctl enable wg-quick@wg0.service
+   #systemctl start wg-quick@wg0.service
+   wg-quick up /etc/wireguard/wg0.conf
+   while :;do sleep 3; done
 else
    VPN=openvpn
    echo "Starting Openvpn"
