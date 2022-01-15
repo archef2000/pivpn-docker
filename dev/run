@@ -44,8 +44,8 @@ else
  
    # Variables are needed in the functions call later.
    useUpdateVars=true
-   PLAT=Debian
-   SUDO=sudo
+   PLAT=Ubuntu
+   SUDO=
    SUDOE=  
  
    curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
