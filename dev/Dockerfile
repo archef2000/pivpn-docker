@@ -17,8 +17,7 @@ RUN sudo bash setupVars
 
 
 ARG PIVPN_TEST=false
-ARG PLAT=Debian
-ENV PLAT=Debian
+ARG PLAT=Ubuntu
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
