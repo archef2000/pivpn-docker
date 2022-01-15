@@ -1,34 +1,28 @@
 FROM debian:stretch-20211011
-# debian:stretch-20211011
-# ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN XDG_RUNTIME_DIR=/run/user/`id -u`
-
-
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
-# grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
 
-COPY sh/ /usr/local/bin/
-# RUN bash . /usr/local/bin/setupVars && bash . /usr/local/bin/reconfigure
-# RUN chmod +x /etc/pivpn/setupVars && chmod +x /etc/pivpn/reconfigure
-RUN mkdir /etc/pivpn/
-RUN sudo bash setupVars
+RUN apt-get install -y -f --no-install-recommends curl systemd grepcidr sudo openvpn expect nano procps ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
+# 
 
+COPY sh/ /etc/pivpn/
+RUN chmod +x /etc/pivpn/setupVars.sh && chmod +x /etc/pivpn/reconfigure.sh
+# RUN mkdir -p /etc/pivpn/
+RUN sed -i 's/pivpnENCRYPT=${ENCRYPT:=2048}/pivpnENCRYPT=${ENCRYPT:=256}/g' /etc/pivpn/setupVars.sh
+RUN /etc/pivpn/setupVars.sh
 
+ARG pivpnFilesDir=/etc/pivpn
 ARG PIVPN_TEST=false
-ARG PLAT=Ubuntu
+ARG PLAT=Debian
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
-RUN mkdir -p -v /usr/local/src/pivpn/
+
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
-    && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
-    && sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
@@ -38,4 +32,4 @@ RUN apt-get clean \
 WORKDIR /home/pivpn
 COPY run .
 RUN chmod +x /home/pivpn/run
-CMD ["./run"]    
+CMD ["./run"]  
