@@ -14,58 +14,58 @@ then
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME} || true
-   #systemctl enable wg-quick@wg0.service
+   systemctl enable wg-quick@wg0.service
    #systemctl start wg-quick@wg0.service
    wg-quick up /etc/wireguard/wg0.conf
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
 then
-  echo "VPN Server exists"
-  echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
-  VPN=openvpn
-  echo "Starting Openvpn"
-  apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
-  # Generate Certificate
-  echo "Generating Client Certificate."
-  pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
-
-  # IPTables Fix
-  sudo iptables -P FORWARD ACCEPT
-  sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-
-  systemctl enable openvpn
-  printf "\\n\\n::: PiVPN Service Started\\n"
-  openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+   echo "VPN Server exists"
+   echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
+   VPN=openvpn
+   echo "Starting Openvpn"
+   apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
+   # Generate Certificate
+   echo "Generating Client Certificate."
+   pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+ 
+   # IPTables Fix
+   sudo iptables -P FORWARD ACCEPT
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+ 
+   systemctl enable openvpn
+   printf "\\n\\n::: PiVPN Service Started\\n"
+   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
-  echo "VPN Server does not exist."
-  bash setupVars
-  INSTALLER=/etc/pivpn/install.sh
-  mkdir -p /usr/local/src/pivpn/
-
-  # Variables are needed in the functions call later.
-  useUpdateVars=true
-  PLAT=Debian
-  SUDO=sudo
-  SUDOE=  
-
-  curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
-      && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
-      && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
-      && chmod +x "${INSTALLER}" \
-      && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
-  
-  echo VPN_name "${CLIENT_NAME:=pivpn}"
-  
-  printf "\\n::: Installation Complete!\\n\\n"
-  printf "\\n\\n::: PiVPN Service Started\\n"
-  if [ "$VPN" = wireguard ]
-  then
-     wg-quick up /etc/wireguard/wg0.conf
-     while :;do sleep 3; done
-     pivpn -a -n ${CLIENT_NAME} || true
-  else
-     systemctl enable openvpn
-     openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
-     pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
-     fi
+   echo "VPN Server does not exist."
+   bash setupVars
+   INSTALLER=/etc/pivpn/install.sh
+   mkdir -p /usr/local/src/pivpn/
+ 
+   # Variables are needed in the functions call later.
+   useUpdateVars=true
+   PLAT=Debian
+   SUDO=sudo
+   SUDOE=  
+ 
+   curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+       && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+       && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
+       && chmod +x "${INSTALLER}" \
+       && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+   
+   echo VPN_name "${CLIENT_NAME:=pivpn}"
+   
+   printf "\\n::: Installation Complete!\\n\\n"
+   printf "\\n\\n::: PiVPN Service Started\\n"
+   if [ "$VPN" = wireguard ]
+   then
+      wg-quick up /etc/wireguard/wg0.conf
+      while :;do sleep 3; done
+      pivpn -a -n ${CLIENT_NAME} || true
+   else
+      systemctl enable openvpn
+      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+      pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+   fi
 fi   
