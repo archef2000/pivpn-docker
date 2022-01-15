@@ -44,7 +44,7 @@ else
  
    # Variables are needed in the functions call later.
    useUpdateVars=true
-   PLAT=Debian
+   PLAT=Ubuntu
    SUDO=
    SUDOE=  
  
