@@ -28,7 +28,7 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
     && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
-    && sed -i 's/+=(linux-headers-generic wireguard-dkms)/ /g' "${INSTALLER}" \
+    && sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
