@@ -17,7 +17,8 @@ RUN sudo bash setupVars
 
 
 ARG PIVPN_TEST=false
-ARG PLAT=Ubuntu
+ARG PLAT=Debian
+ENV PLAT=Debian
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
@@ -27,6 +28,7 @@ RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
     && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
     && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
+    && sed -i 's/+=(linux-headers-generic wireguard-dkms)/ /g' "${INSTALLER}" \
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
