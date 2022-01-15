@@ -67,4 +67,5 @@ else
      systemctl enable openvpn
      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
      pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+     fi
 fi   
