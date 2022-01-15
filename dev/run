@@ -38,7 +38,7 @@ then
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
    echo "VPN Server does not exist."
-   bash setupVars
+   sudo -E bash setupVars
    INSTALLER=/etc/pivpn/install.sh
    mkdir -p /usr/local/src/pivpn/
  
