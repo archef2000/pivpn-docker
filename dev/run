@@ -8,7 +8,7 @@ then
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
 else
    echo "OPENVPN Server does not exist."
-   bash /etc/pivpn/setupVars.sh
+   sudo -E bash setupVars
    INSTALLER=/etc/pivpn/install.sh
    mkdir -p /usr/local/src/pivpn/
 
