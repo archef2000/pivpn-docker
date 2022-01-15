@@ -17,3 +17,6 @@ qrencode
 only openvpn
 linux-headers-amd64
 wireguard-dkms
+
+
+wg syncconf wg0 <(wg-quick strip wg0)
