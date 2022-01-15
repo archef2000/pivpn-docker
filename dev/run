@@ -51,6 +51,7 @@ else
    curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
        && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
        && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
+       && sed -i 's/+=(linux-headers-generic wireguard-dkms)/ /g' "${INSTALLER}" \
        && chmod +x "${INSTALLER}" \
        && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
    
