@@ -14,6 +14,11 @@ then
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME} || true
+   
+   # IPTables Fix
+   sudo iptables -P FORWARD ACCEPT
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   
    systemctl enable wg-quick@wg0.service
    #systemctl start wg-quick@wg0.service
    wg-quick up /etc/wireguard/wg0.conf
