@@ -22,8 +22,8 @@ then
 
    
    # systemctl enable wg-quick@wg0.service
-   #systemctl start wg-quick@wg0.service
-   sleep 2
+   # systemctl start wg-quick@wg0.service
+   # sleep 2
    wg-quick up /etc/wireguard/wg0.conf
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
