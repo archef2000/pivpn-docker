@@ -16,11 +16,14 @@ then
    pivpn -a -n ${CLIENT_NAME:=pivpn} || true
    
    # IPTables Fix
-   sudo iptables -P FORWARD ACCEPT
+   # sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   # sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
+
    
-   systemctl enable wg-quick@wg0.service
+   # systemctl enable wg-quick@wg0.service
    #systemctl start wg-quick@wg0.service
+   sleep 2
    wg-quick up /etc/wireguard/wg0.conf
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
