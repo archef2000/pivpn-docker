@@ -25,7 +25,7 @@ then
    # systemctl enable wg-quick@wg0.service
    # systemctl start wg-quick@wg0.service
    # sleep 2
-   wg-quick up /etc/wireguard/wg0.conf
+   wg-quick up wg0
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
 then
@@ -75,12 +75,13 @@ else
    if [ "$VPN" = wireguard ]
    then
       sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-      wg-quick up /etc/wireguard/wg0.conf
+      wg-quick up wg0
       pivpn -a -n ${CLIENT_NAME:=pivpn} || true
       wg syncconf wg0 <(wg-quick strip wg0)
+      while :;do sleep 3; done
    else
       systemctl enable openvpn
-      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
       pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+      openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
    fi
 fi   
