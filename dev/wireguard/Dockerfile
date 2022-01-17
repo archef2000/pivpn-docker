@@ -7,7 +7,7 @@ RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
 
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
+RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd wireguard-tools qrencode iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
 # grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
 
 COPY sh/ /usr/local/bin/
