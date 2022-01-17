@@ -23,6 +23,7 @@ ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
 ARG INSTALLER=/etc/pivpn/install.sh
+RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
 RUN mkdir -p -v /usr/local/src/pivpn/
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
