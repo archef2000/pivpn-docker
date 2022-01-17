@@ -1,5 +1,6 @@
-FROM ubuntu:latest
-#debian:stretch-20211011
+FROM debian:stretch-20211011
+# debian:stretch-20211011
+# ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN XDG_RUNTIME_DIR=/run/user/`id -u`
