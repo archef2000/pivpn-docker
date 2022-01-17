@@ -65,15 +65,15 @@ else
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
    
-   echo VPN_name "${CLIENT_NAME:=pivpn}"
+   echo CLIENT_NAME: "${CLIENT_NAME:=pivpn}"
    
    printf "\\n::: Installation Complete!\\n\\n"
    printf "\\n\\n::: PiVPN Service Started\\n"
    if [ "$VPN" = wireguard ]
    then
+      sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+      pivpn -a -n ${CLIENT_NAME:=pivpn} || true
       wg-quick up /etc/wireguard/wg0.conf
-      while :;do sleep 3; done
-      pivpn -a -n ${CLIENT_NAME} || true
    else
       systemctl enable openvpn
       openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
