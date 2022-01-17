@@ -5,12 +5,10 @@ FROM debian:stretch-20211011
 ENV DEBIAN_FRONTEND=noninteractive
 RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
-
+RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd qrencode iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
+RUN apt-get install -y -f --no-install-recommends systemd sudo curl git wireguard-tools systemd qrencode iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
 # grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
-RUN sudo add-apt-repository ppa:wireguard/wireguard
-RUN apt install -y -f --no-install-recommends wireguard-tools 
 
 COPY sh/ /usr/local/bin/
 # RUN bash . /usr/local/bin/setupVars && bash . /usr/local/bin/reconfigure
