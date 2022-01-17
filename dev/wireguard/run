@@ -13,7 +13,7 @@ then
    apt update && apt install -y --no-install-recommends wireguard-tools qrencode
    # Generate Certificate
    echo "Generating Client Certificate."
-   pivpn -a -n ${CLIENT_NAME} || true
+   pivpn -a -n ${CLIENT_NAME:=pivpn} || true
    
    # IPTables Fix
    sudo iptables -P FORWARD ACCEPT
