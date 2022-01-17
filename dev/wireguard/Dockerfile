@@ -1,4 +1,4 @@
-FROM debian:stretch-20211011
+FROM ubuntu:latest
 # debian:stretch-20211011
 # ubuntu:latest
 
