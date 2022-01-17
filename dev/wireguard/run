@@ -38,7 +38,7 @@ then
    pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
  
    # IPTables Fix
-   sudo iptables -P FORWARD ACCEPT
+   #sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
  
    systemctl enable openvpn
@@ -72,8 +72,9 @@ else
    if [ "$VPN" = wireguard ]
    then
       sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-      pivpn -a -n ${CLIENT_NAME:=pivpn} || true
       wg-quick up /etc/wireguard/wg0.conf
+      pivpn -a -n ${CLIENT_NAME:=pivpn} || true
+      wg syncconf wg0 <(wg-quick strip wg0)
    else
       systemctl enable openvpn
       openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
