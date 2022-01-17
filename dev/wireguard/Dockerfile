@@ -5,7 +5,7 @@ FROM debian:stretch-20211011
 ENV DEBIAN_FRONTEND=noninteractive
 RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
-RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
+RUN echo "deb https://deb.debian.org/debian/ bullseye main" | $SUDO tee /etc/apt/sources.list.d/pivpn-bullseye-repo.list > /dev/null
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
 RUN apt-get install -y -f --no-install-recommends systemd sudo curl git wireguard-tools systemd qrencode iproute2 nano procps ca-certificates grep dhcpcd5 iptables-persistent
 # grepcidr openvpn expect whiptail net-tools bsdmainutils bash-completion git tar dnsutils apt-transport-https
@@ -18,7 +18,7 @@ RUN sudo bash setupVars
 
 
 ARG PIVPN_TEST=false
-ARG PLAT=Ubuntu
+ARG PLAT=Debian
 ARG useUpdateVars=true
 ARG SUDO=
 ARG SUDOE=
