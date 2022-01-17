@@ -10,7 +10,8 @@ then
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
    VPN=wireguard
    echo "Starting Wireguard"
-   apt update && apt install -y --no-install-recommends wireguard-tools qrencode
+   if [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
+   apt update && apt install -y --no-install-recommends wireguard-tools qrencode; fi
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME:=pivpn} || true
@@ -32,7 +33,8 @@ then
    echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
    VPN=openvpn
    echo "Starting Openvpn"
-   apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect
+   if [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
+   apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect; fi
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
