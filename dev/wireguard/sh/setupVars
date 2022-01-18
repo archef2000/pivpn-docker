@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # VPN
-VPN=${VPN:=wireguard}
+VPN=${VPN:=openvpn}
 if [ $VPN = openvpn ]; then VPNPORT=1194; else VPNPORT=51820; fi
 
 #2.4 Openvpn
