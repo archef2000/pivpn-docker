@@ -3,6 +3,14 @@
 echo Container Started
 # OVPN=/etc/openvpn/server.conf
 # WG=/etc/wireguard/wg0.conf
+pivpnFilesDir="/usr/local/src/pivpn"
+pivpnScriptDir="/opt/pivpn"
+
+script(){
+   ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
+   ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
+   ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
+}
 
 if [ -f /etc/wireguard/wg0.conf ]
 then
@@ -12,6 +20,8 @@ then
    echo "Starting Wireguard"
    if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
    apt update && apt install -y --no-install-recommends wireguard-tools qrencode; fi
+   # Symlink
+   script
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME:=pivpn} || true
@@ -35,6 +45,8 @@ then
    echo "Starting Openvpn"
    if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
    apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect; fi
+   # Symlink
+   script
    # Generate Certificate
    echo "Generating Client Certificate."
    pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
@@ -72,14 +84,20 @@ else
    
    printf "\\n::: Installation Complete!\\n\\n"
    printf "\\n\\n::: PiVPN Service Started\\n"
-   if [ "$VPN" = wireguard ]
+   if [ -f /etc/wireguard/wg0.conf ]
    then
+      VPN=wireguard
+      # Symlink
+      script
       sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
       wg-quick up wg0
       pivpn -a -n ${CLIENT_NAME:=pivpn} || true
       wg syncconf wg0 <(wg-quick strip wg0)
       while :;do sleep 3; done
-   else
+   elif [ -f /etc/openvpn/server.conf ]
+   then
+      VPN=openvpn
+      script
       systemctl enable openvpn
       pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
       openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
