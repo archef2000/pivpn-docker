@@ -2,6 +2,8 @@ unlink /etc/bash_completion.d/pivpn
 unlink /usr/local/bin/pivpn
 unlink /opt/pivpn
 
+pivpnFilesDir="/usr/local/src/pivpn"
+pivpnScriptDir="/opt/pivpn"
 
 $SUDO ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
 $SUDO ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
