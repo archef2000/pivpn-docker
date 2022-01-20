@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo Container Started
+FILE=/etc/openvpn/server.conf
+if [ -f $FILE ]
+then
+   echo "OPENVPN Server exists."
+   echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
+else
+   echo "OPENVPN Server does not exist."
+   sudo -E bash setupVars
+   INSTALLER=/etc/pivpn/install.sh
+   mkdir -p /usr/local/src/pivpn/
+
+   # Variables are needed in the functions call later.
+   useUpdateVars=true
+   PLAT=Debian
+   SUDO=
+   SUDOE=  
+
+   curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+       && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+       && chmod +x "${INSTALLER}" \
+       && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+   
+   echo VPN_name "${CLIENT_NAME:=pivpn}"
+   
+   printf "\\n::: Installation Complete!\\n\\n"
+fi
+
+# Generate Certificate
+echo "Generating Client Certificate."
+CLIENT_PW="-p $CLIENT_PASSWD"
+pivpn -a -n "${CLIENT_NAME}" "${CLIENT_PW:=nopass}" -d 1080 || true
+
+# IPTables Fix
+/sbin/iptables -P FORWARD ACCEPT
+/sbin/iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+
+systemctl enable openvpn
+printf "\\n\\n::: PiVPN Service Started\\n"
+openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log

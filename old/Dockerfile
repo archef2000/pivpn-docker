@@ -1,0 +1,29 @@
+FROM debian:stretch-20211011
+
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
+RUN apt-get install -y -f --no-install-recommends curl systemd grepcidr sudo openvpn expect nano procps ca-certificates git tar grep dnsutils whiptail net-tools bsdmainutils bash-completion apt-transport-https dhcpcd5 iptables-persistent
+
+COPY sh/ /usr/local/bin/
+RUN mkdir -p /etc/pivpn/
+RUN sudo -E bash setupVars
+
+ARG pivpnFilesDir=/etc/pivpn
+ARG PLAT=Debian
+ARG useUpdateVars=true
+ARG SUDO=
+ARG SUDOE=
+ARG INSTALLER=/etc/pivpn/install.sh
+RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+    && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
+    && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+    && chmod +x "${INSTALLER}" \
+    && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/*
+
+WORKDIR /home/pivpn
+COPY run .
+RUN chmod +x /home/pivpn/run
+CMD ["./run"]  
