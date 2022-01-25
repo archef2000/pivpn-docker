@@ -1,5 +1,5 @@
 FROM debian:stretch-20211011
-RUN cd /
-COPY run /run
-RUN chmod +x /run
-CMD ["/run"]  
+RUN mkdir /old
+COPY run /old/run
+RUN chmod +x /old/run
+CMD ["/old/run"]  
