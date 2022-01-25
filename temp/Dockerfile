@@ -1,4 +1,4 @@
 From alpine:latest
 RUN cd /
-COPY run .
+COPY run /run
 CMD ["/run"]  
