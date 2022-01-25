@@ -3,4 +3,4 @@ RUN mkdir /old
 COPY run /old/run
 RUN chmod +x /old/run
 WORKDIR /old
-CMD ["./run"]  
+CMD ["bash" "run"]  
