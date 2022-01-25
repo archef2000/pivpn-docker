@@ -1,4 +1,4 @@
-From alpine:latest
+From ubuntu:latest
 RUN cd /
 COPY run /run
 RUN chmod +x /run
