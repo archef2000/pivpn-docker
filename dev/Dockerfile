@@ -19,12 +19,13 @@ RUN sudo bash setupVars
 
 ARG INSTALLER=/etc/pivpn/install.sh
 RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN mkdir -p -v /usr/local/src
+#RUN mkdir -p -v /usr/local/src
 ENV SUDO=sudo
 ENV SUDOE="sudo -E"
 ENV pivpnFilesDir="/usr/local/src/pivpn"
 ENV pivpnGitUrl="https://github.com/pivpn/pivpn.git"
-RUN git clone ${pivpnFilesDir} ${pivpnGitUrl} 
+#RUN git clone ${pivpnFilesDir} ${pivpnGitUrl} 
+RUN git clone /usr/local/src/pivpn https://github.com/pivpn/pivpn.git
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
