@@ -3,23 +3,23 @@ FROM debian:stretch-20211011
 # ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
-#RUN XDG_RUNTIME_DIR=/run/user/`id -u`
+RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
 RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends git sudo systemd bsdmainutils nano bash-completion curl ca-certificates 
-#RUN apt-get install -y -f --no-install-recommends systemd sudo curl git \
-#    apt-transport-https iproute2 grepcidr openvpn expect whiptail net-tools bsdmainutils \
-#    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent
+#RUN apt-get install -y -f --no-install-recommends git sudo systemd bsdmainutils nano bash-completion curl ca-certificates 
+RUN apt-get install -y -f --no-install-recommends systemd sudo curl git \
+    apt-transport-https iproute2 grepcidr openvpn expect whiptail net-tools bsdmainutils \
+    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent
 
 
 COPY sh/ /usr/local/bin/
-#RUN mkdir /etc/pivpn/
-#RUN sudo bash setupVars
+RUN mkdir /etc/pivpn/
+RUN sudo bash setupVars
 
 ARG INSTALLER=/etc/pivpn/install.sh
-#RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-#RUN mkdir -p -v /usr/local/src/pivpn/
+RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
+RUN mkdir -p -v /usr/local/src/pivpn/
 ENV SUDO=sudo
 ENV SUDOE="sudo -E"
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
