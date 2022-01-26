@@ -7,10 +7,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends git sudo systemd bsdmainutils nano bash-completion curl
+RUN apt-get install -y -f --no-install-recommends git sudo systemd bsdmainutils nano bash-completion curl ca-certificates 
 #RUN apt-get install -y -f --no-install-recommends systemd sudo curl git \
 #    apt-transport-https iproute2 grepcidr openvpn expect whiptail net-tools bsdmainutils \
-#    bash-completion git tar dnsutils nano procps ca-certificates grep dhcpcd5 iptables-persistent
+#    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent
 
 
 COPY sh/ /usr/local/bin/
