@@ -10,7 +10,7 @@ RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommend
 #RUN apt-get install -y -f --no-install-recommends git sudo systemd bsdmainutils nano bash-completion curl 
 RUN apt-get install -y -f --no-install-recommends systemd sudo curl git ca-certificates \
     apt-transport-https iproute2 grepcidr openvpn expect whiptail net-tools bsdmainutils \
-    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent
+    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent wireguard-tools qrencode
 
 
 COPY sh/ /usr/local/bin/
