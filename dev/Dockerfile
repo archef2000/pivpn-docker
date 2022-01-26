@@ -24,7 +24,7 @@ ENV SUDO=sudo
 ENV SUDOE="sudo -E"
 ENV pivpnFilesDir="/usr/local/src/pivpn"
 ENV pivpnGitUrl="https://github.com/pivpn/pivpn.git"
-RUN git clone -q --depth 1 --no-single-branch ${pivpnFilesDir} ${pivpnGitUrl} 
+RUN git clone ${pivpnFilesDir} ${pivpnGitUrl} 
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
