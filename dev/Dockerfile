@@ -24,7 +24,7 @@ ENV SUDO=sudo
 ENV SUDOE="sudo -E"
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}"
 RUN sed -i 's/main "$@"/# main "$@"/g' "${INSTALLER}"
-RUN . "${INSTALLER}"
+RUN . /etc/pivpn/install.sh
 RUN bash cloneOrUpdateRepos
 
 RUN apt-get clean \
