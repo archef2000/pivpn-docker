@@ -22,10 +22,10 @@ RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
 RUN mkdir -p -v /usr/local/src/pivpn/
 ENV SUDO=sudo
 ENV SUDOE="sudo -E"
-RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
-    && sed -i 's/main "$@"/# main "$@"/g' "${INSTALLER}" \
-    && . "${INSTALLER}" \
-    && bash cloneOrUpdateRepos
+RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}"
+RUN sed -i 's/main "$@"/# main "$@"/g' "${INSTALLER}"
+RUN . "${INSTALLER}"
+RUN bash cloneOrUpdateRepos
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
