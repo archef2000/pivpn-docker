@@ -23,9 +23,9 @@ RUN mkdir -p -v /usr/local/src/pivpn/
 ENV SUDO=sudo
 ENV SUDOE="sudo -E"
 RUN curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}"
-RUN sed -i 's/main "$@"/# main "$@"/g' "${INSTALLER}"
-RUN . /etc/pivpn/install.sh
-RUN bash cloneOrUpdateRepos
+RUN sed -i 's/main "$@"/cloneOrUpdateRepos/g' "${INSTALLER}"
+RUN bash "${INSTALLER}"
+RUN rm "${INSTALLER}"
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
