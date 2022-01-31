@@ -27,8 +27,8 @@ ENV pivpnGitUrl="https://github.com/pivpn/pivpn.git"
 #RUN git clone ${pivpnFilesDir} ${pivpnGitUrl} 
 RUN git clone https://github.com/pivpn/pivpn.git /usr/local/src/pivpn
 
-#RUN apt-get clean \
-#    && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
 
 WORKDIR /home/pivpn
 COPY run .
