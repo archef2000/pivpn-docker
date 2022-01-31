@@ -15,7 +15,7 @@ script(){
 if [ -f /etc/wireguard/wg0.conf ]
 then
    echo "VPN Server exists"
-   echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
+   echo "If you have changed Variables in a running PIVPN Install run reconf"
    VPN=wireguard
    echo "Starting Wireguard"
    if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
@@ -40,7 +40,7 @@ then
 elif [ -f /etc/openvpn/server.conf ]
 then
    echo "VPN Server exists"
-   echo "If you have changed Variables in a running PIVPN Install execute bash reconfigure.sh"
+   echo "If you have changed Variables in a running PIVPN Install run reconf"
    VPN=openvpn
    echo "Starting Openvpn"
    if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
