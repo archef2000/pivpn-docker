@@ -13,8 +13,9 @@ RUN apt-get install -y -f --no-install-recommends systemd sudo curl git systemd 
 
 
 COPY sh/ /usr/local/bin/
-RUN mkdir /etc/pivpn/
+RUN sudo mkdir /etc/pivpn/
 RUN sudo bash setupVars
+RUN sudo touch /usr/local/bin/pivpn
 
 ARG INSTALLER=/etc/pivpn/install.sh
 RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
