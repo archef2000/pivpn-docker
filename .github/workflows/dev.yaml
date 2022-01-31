@@ -22,7 +22,7 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}   
       run: |
-        docker buildx build ./dev -t archef2000/pivpn:latest-dev --platform linux/arm64/v8 --push
+        docker buildx build ./dev -t archef2000/pivpnn:latest-dev --platform linux/arm64/v8 --push
         
 # ,linux/386,linux/arm/v5,linux/arm/v7,linux/amd64
 # linux/386,linux/amd64,linux/arm/v5,linux/arm/v7,linux/arm64/v8
