@@ -18,7 +18,7 @@ RUN mkdir /etc/pivpn/
 RUN sudo bash setupVars
 
 ARG INSTALLER=/etc/pivpn/install.sh
-RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
+#RUN apt update --fix-missing && apt-get upgrade -f -y --no-install-recommends
 RUN mkdir -p -v /usr/local/src/pivpn
 ENV SUDO=sudo
 ENV SUDOE="sudo -E"
