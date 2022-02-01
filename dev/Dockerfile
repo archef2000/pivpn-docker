@@ -7,14 +7,7 @@ RUN XDG_RUNTIME_DIR=/run/user/`id -u`
 
 RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
-RUN apt-get install -y -f --no-install-recommends git
-RUN apt-get install -y -f --no-install-recommends curl
-RUN apt-get install -y -f --no-install-recommends nano
-RUN apt-get install -y -f --no-install-recommends sudo
-RUN apt-get install -y -f --no-install-recommends systemd
-RUN apt-get install -y -f --no-install-recommends bsdmainutils
-RUN apt-get install -y -f --no-install-recommends bash-completion
-RUN apt-get install -y -f --no-install-recommends ca-certificates
+RUN apt-get install -y -f --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion ca-certificates
 #RUN apt-get install -y -f --no-install-recommends systemd sudo curl git ca-certificates \
 #    apt-transport-https iproute2 grepcidr openvpn expect whiptail net-tools bsdmainutils \
 #    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent wireguard-tools qrencode
