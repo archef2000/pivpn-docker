@@ -8,18 +8,11 @@ FROM debian:stretch-20211011-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-#RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
 RUN adduser --home /home/pivpn --disabled-password pivpn
-RUN apt-get update --fix-missing 
-## && apt-get upgrade -f -y --no-install-recommends
+RUN apt-get update --fix-missing
 RUN apt-get install -y -f --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion ca-certificates iproute2 net-tools
-#RUN apt-get install -y -f --no-install-recommends systemd sudo curl git ca-certificates \
-#    apt-transport-https iproute2 grepcidr openvpn expect whiptail net-tools bsdmainutils \
-#    bash-completion git tar dnsutils nano procps  grep dhcpcd5 iptables-persistent wireguard-tools qrencode
 
 COPY sh/ /usr/local/bin/
-#RUN mkdir /etc/pivpn/
-#RUN sudo bash setupVars
 #RUN mkdir -p -v /usr/local/src/pivpn
 COPY  --from=builder /clone /usr/local/src/pivpn
 
