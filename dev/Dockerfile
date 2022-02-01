@@ -5,6 +5,7 @@ FROM debian:stretch-20211011-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
 #RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
+RUN adduser --home /home/pivpn --disabled-password pivpn
 RUN apt-get update --fix-missing 
 ## && apt-get upgrade -f -y --no-install-recommends
 RUN apt-get install -y -f --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion ca-certificates iproute2 net-tools
