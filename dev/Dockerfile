@@ -3,7 +3,7 @@ FROM debian:stretch-20211011-slim
 # ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
-RUN XDG_RUNTIME_DIR=/run/user/`id -u`
+RUN set -euo pipefail
 
 RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
 RUN apt-get update --fix-missing && apt-get upgrade -f -y --no-install-recommends
