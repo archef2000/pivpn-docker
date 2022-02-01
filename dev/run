@@ -1,6 +1,6 @@
 #!/bin/bash
 
-apt update
+apt-get update > /dev/null
 
 echo Container Started
 pivpnFilesDir="/usr/local/src/pivpn"
@@ -20,7 +20,7 @@ then
    echo "Starting Wireguard"
    if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
    echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
-   apt update && apt install -y --no-install-recommends wireguard-tools qrencode iproute2; fi
+   apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode iproute2; fi
    # Symlink
    script
    # Generate Certificate
@@ -45,7 +45,7 @@ then
    VPN=openvpn
    echo "Starting Openvpn"
    if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
-   apt update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect iproute2; fi
+   apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect iproute2; fi
    # Symlink
    script
    # Generate Certificate
@@ -61,17 +61,16 @@ then
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
    echo "VPN Server does not exist."
+   echo "Pre Config of PIVPN."
    mkdir -p /etc/pivpn
    sudo -E bash setupVars
    INSTALLER=/etc/pivpn/install.sh
    mkdir -p /usr/local/src/pivpn/
-   echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
-   apt update && apt install -y --no-install-recommends wireguard-tools qrencode iproute2
+   echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list > /dev/null
+   apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode iproute2 > /dev/null
    # Variables are needed in the functions call later.
    useUpdateVars=true
    PLAT=Ubuntu
-   SUDO=
-   SUDOE=  
  
     curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
@@ -90,7 +89,6 @@ else
    if [ -f /etc/wireguard/wg0.conf ]
    then
       VPN=wireguard
-      # Symlink
       script
       sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
       wg-quick up wg0
