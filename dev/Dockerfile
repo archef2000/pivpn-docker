@@ -1,3 +1,7 @@
+FROM debian:stretch-20211011-slim AS builder
+RUN (apt update && apt install git) > /dev/null
+RUN git clone https://github.com/pivpn/pivpn.git /clone
+
 FROM debian:stretch-20211011-slim
 # debian:stretch-20211011
 # ubuntu:latest
@@ -17,7 +21,7 @@ COPY sh/ /usr/local/bin/
 #RUN mkdir /etc/pivpn/
 #RUN sudo bash setupVars
 #RUN mkdir -p -v /usr/local/src/pivpn
-RUN git clone https://github.com/pivpn/pivpn.git /usr/local/src/pivpn
+COPY  --from=builder /clone /usr/local/src/pivpn
 
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true
