@@ -1,5 +1,5 @@
 FROM debian:stretch-20211011-slim AS builder
-RUN (apt update && apt install -y -f --no-install-recommends git) > /dev/null
+RUN (apt update && apt install -y -f --no-install-recommends git ca-certificates) > /dev/null
 RUN git clone https://github.com/pivpn/pivpn.git /clone
 
 FROM debian:stretch-20211011-slim
