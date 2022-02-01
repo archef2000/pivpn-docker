@@ -1,8 +1,6 @@
 #!/bin/bash
 
 echo Container Started
-# OVPN=/etc/openvpn/server.conf
-# WG=/etc/wireguard/wg0.conf
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
 
