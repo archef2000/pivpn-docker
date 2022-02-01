@@ -19,6 +19,7 @@ then
    VPN=wireguard
    echo "Starting Wireguard"
    if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
+   echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
    apt update && apt install -y --no-install-recommends wireguard-tools qrencode; fi
    # Symlink
    script
@@ -60,10 +61,12 @@ then
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
    echo "VPN Server does not exist."
+   mkdir -p /etc/pivpn
    sudo -E bash setupVars
    INSTALLER=/etc/pivpn/install.sh
    mkdir -p /usr/local/src/pivpn/
- 
+   echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
+   apt update && apt install -y --no-install-recommends wireguard-tools qrencode
    # Variables are needed in the functions call later.
    useUpdateVars=true
    PLAT=Ubuntu
