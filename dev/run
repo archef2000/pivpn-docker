@@ -102,7 +102,7 @@ else
       VPN=openvpn
       script
       systemctl enable openvpn
-      pivpn -a -n ${CLIENT_NAME} -p ${CLIENT_PASSWD:=nopass} -d 1080 || true
+      pivpn -a -n ${CLIENT_NAME} -d 1080 || true
       openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
    fi
 fi   
