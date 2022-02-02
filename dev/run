@@ -22,7 +22,7 @@ then
    script
    # Generate Certificate
    echo "Generating Client Certificate."
-   pivpn -a nopass -n ${CLIENT_NAME:=pivpn} || true
+   pivpn -a nopass -n ${CLIENT_NAME:=pivpn} > /dev/null || true
    # IPTables Fix
    # sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
@@ -77,7 +77,7 @@ else
       script
       sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
       wg-quick up wg0
-      pivpn -a -n ${CLIENT_NAME:=pivpn} || true
+      pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null || true
       wg syncconf wg0 <(wg-quick strip wg0)
       while :;do sleep 3; done
    elif [ -f /etc/openvpn/server.conf ]
