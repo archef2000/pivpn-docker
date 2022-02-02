@@ -4,7 +4,7 @@ echo Container Started
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
 script(){
-   mv "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" || true
+   mv "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" > /dev/null || true
    ln -sf -T "/etc/${VPN}/setupVars.conf" "/etc/pivpn/${VPN}/setupVars.conf"
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
@@ -22,7 +22,7 @@ then
    script
    # Generate Certificate
    echo "Generating Client Certificate."
-   pivpn -a nopass -n ${CLIENT_NAME:=pivpn} > /dev/null || true
+   pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null || true
    # IPTables Fix
    # sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
@@ -42,7 +42,7 @@ then
    (apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect) > /dev/null 2>/dev/null; fi
    script
    echo "Generating Client Certificate."
-   pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 || true
+   (pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /d3v/null) || true
    # IPTables Fix
    #sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
@@ -77,7 +77,7 @@ else
       script
       sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
       wg-quick up wg0
-      pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null || true
+      (pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null) || true
       wg syncconf wg0 <(wg-quick strip wg0)
       while :;do sleep 3; done
    elif [ -f /etc/openvpn/server.conf ]
@@ -85,7 +85,7 @@ else
       VPN=openvpn
       script
       systemctl enable openvpn > /dev/null
-      pivpn -a nopass -n ${CLIENT_NAME:=pivpn} -d 1080 || true
+      (pivpn -a nopass -n ${CLIENT_NAME:=pivpn} -d 1080 > /dev/null) || true
       sleep 1
       openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
    fi
