@@ -56,8 +56,8 @@ else
    sudo -E bash setupVars
    INSTALLER=/etc/pivpn/install.sh
    mkdir -p /usr/local/src/pivpn/
-   (echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list) > /dev/null 2>/dev/null
-   (apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode iproute2) > /dev/null 2>/dev/null
+   echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
+   apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode iproute2
    PLAT=Ubuntu
     curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
     && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
