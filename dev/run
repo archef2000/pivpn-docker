@@ -47,8 +47,8 @@ then
    #sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
    #systemctl enable openvpn
-   groupadd openvpn > /dev/null   
-   useradd -g openvpn openvpn > /dev/null   
+   groupadd openvpn 2> /dev/null   
+   useradd -g openvpn openvpn 2> /dev/null   
    printf "\\n\\n::: PiVPN Service Started\\n"
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
