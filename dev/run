@@ -42,7 +42,7 @@ then
    (apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect) > /dev/null 2>/dev/null; fi
    script
    echo "Generating Client Certificate."
-   (pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /d3v/null) || true
+   (pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null) || true
    # IPTables Fix
    #sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
