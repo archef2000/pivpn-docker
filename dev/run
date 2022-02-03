@@ -1,5 +1,5 @@
 #!/bin/bash
-echo Container Started
+echo "::: Container Started"
 apt-get update
 apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 > /dev/null 2>/dev/null
 pivpnFilesDir="/usr/local/src/pivpn"
@@ -12,17 +12,36 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 }
-if [ -f /etc/wireguard/wg0.conf ]
+if [ -f /etc/openvpn/server.conf ]
 then
-   echo "VPN Server exists"
-   echo "If you have changed Variables in a running PIVPN Install run reconf"
+   echo "::: Openvpn VPN Server exists"
+   echo "::: If you have changed Variables in a running PIVPN Install run reconf"
+   VPN=openvpn
+   echo "::: Prepareing Openvpn"
+   if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
+   (apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect) > /dev/null 2>/dev/null; fi
+   script
+   (pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null) || true
+   echo "::: Starting Openvpn"
+   #sudo iptables -P FORWARD ACCEPT
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   #systemctl enable openvpn
+   groupadd openvpn 2> /dev/null   
+   useradd -g openvpn openvpn 2> /dev/null   
+   echo "::: PiVPN Service Started"
+   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+elif [ -f /etc/wireguard/wg0.conf ]
+then
+   echo "::: Wireguard VPN Server exists"
+   echo "::: If you have changed Variables in a running PIVPN Install run reconf"
    VPN=wireguard
-   echo "Starting Wireguard"
+   echo "::: Prepareing Wireguard"
    if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
    (echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list) > /dev/null 2>/dev/null
    (apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode) > /dev/null 2>/dev/null; fi
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null || true
+   echo "::: Starting Wireguard"
    # sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
    # sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
@@ -31,23 +50,6 @@ then
    # sleep 2
    wg-quick up wg0
    while :;do sleep 3; done
-elif [ -f /etc/openvpn/server.conf ]
-then
-   echo "::: VPN Server exists"
-   echo "::: If you have changed Variables in a running PIVPN Install run reconf"
-   VPN=openvpn
-   echo "::: Starting Openvpn"
-   if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
-   (apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect) > /dev/null 2>/dev/null; fi
-   script
-   (pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null) || true
-   #sudo iptables -P FORWARD ACCEPT
-   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-   #systemctl enable openvpn
-   groupadd openvpn 2> /dev/null   
-   useradd -g openvpn openvpn 2> /dev/null   
-   echo "::: PiVPN Service Started"
-   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
    echo "::: VPN Server does not exist."
    echo "::: Pre Config of PIVPN."
