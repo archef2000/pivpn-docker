@@ -5,7 +5,7 @@ apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsut
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
 script(){
-   cp "/etc/pivpn/${VPN}/setupVars.conf" " /etc/${VPN}/setupVars.conf" 2> /dev/null || true
+   cp "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" 2> /dev/null || true
    mkdir -p "/etc/pivpn/${VPN}" > /dev/null || true
    ln -sf -T "/etc/${VPN}/setupVars.conf" "/etc/pivpn/${VPN}/setupVars.conf"
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
