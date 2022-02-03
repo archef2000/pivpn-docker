@@ -1,15 +1,42 @@
 #!/bin/bash
 
-echo "Writung setupVars.conf"
+echo "::: VPN Server does not exist."
+echo "::: Pre Config of PIVPN."
+mkdir -p /etc/pivpn
 sudo -E bash setupVars
-
-echo "Reconfigure PIVPN"
 INSTALLER=/etc/pivpn/install.sh
-curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
-    && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
-    && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
-    && sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
-    && chmod +x "${INSTALLER}" \
-    && "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+mkdir -p /usr/local/src/pivpn/
+echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
+apt-get update > /dev/null 2> /dev/null
+apt install -y --no-install-recommends wireguard-tools qrencode iproute2 > /dev/null 2> /dev/null
+PLAT=Ubuntu
+ curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
+ && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
+ && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
+ && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
+ && sed -i 's/PIVPN_DEPS+=(linux-headers-amd64 wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
+ && sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
+ && sed -i 's/sync/# sync/g' "${INSTALLER}" \
+ && chmod +x "${INSTALLER}" \
+ && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
-pivpn -a nopass -n "${CLIENT_NAME}" -d 1080 || true
+echo "::: Installation Complete!"
+echo "::: PiVPN Service Started"
+if [ -f /etc/wireguard/wg0.conf ]
+then
+   VPN=wireguard
+   script
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   wg-quick up wg0
+   (pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null) || true
+   wg syncconf wg0 <(wg-quick strip wg0)
+   while :;do sleep 3; done
+elif [ -f /etc/openvpn/server.conf ]
+then
+   VPN=openvpn
+   script
+   #systemctl enable openvpn > /dev/null
+   (pivpn -a nopass -n ${CLIENT_NAME:=pivpn} -d 1080 > /dev/null) || true
+   sleep 1
+   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+fi
