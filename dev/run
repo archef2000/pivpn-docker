@@ -37,7 +37,7 @@ then
    VPN=wireguard
    echo "::: Prepareing Wireguard"
    if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
-   echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard) > /dev/null 2>/dev/null
+   (echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard) > /dev/null 2>/dev/null
    (apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode) > /dev/null 2>/dev/null; fi
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null || true
