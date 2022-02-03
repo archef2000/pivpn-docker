@@ -31,10 +31,10 @@ then
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
 then
-   echo "VPN Server exists"
-   echo "If you have changed Variables in a running PIVPN Install run reconf"
+   echo "::: VPN Server exists"
+   echo "::: If you have changed Variables in a running PIVPN Install run reconf"
    VPN=openvpn
-   echo "Starting Openvpn"
+   echo "::: Starting Openvpn"
    if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
    (apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect) > /dev/null 2>/dev/null; fi
    script
@@ -44,11 +44,11 @@ then
    #systemctl enable openvpn
    groupadd openvpn 2> /dev/null   
    useradd -g openvpn openvpn 2> /dev/null   
-   printf "\\n\\n::: PiVPN Service Started\\n"
+   echo "::: PiVPN Service Started"
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 else
-   echo "VPN Server does not exist."
-   echo "Pre Config of PIVPN."
+   echo "::: VPN Server does not exist."
+   echo "::: Pre Config of PIVPN."
    mkdir -p /etc/pivpn
    sudo -E bash setupVars
    INSTALLER=/etc/pivpn/install.sh
@@ -66,8 +66,8 @@ else
     && chmod +x "${INSTALLER}" \
     && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
    
-   printf "\\n::: Installation Complete!\\n\\n"
-   printf "\\n\\n::: PiVPN Service Started\\n"
+   echo "::: Installation Complete!"
+   echo "::: PiVPN Service Started"
    if [ -f /etc/wireguard/wg0.conf ]
    then
       VPN=wireguard
