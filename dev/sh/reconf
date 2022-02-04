@@ -1,7 +1,7 @@
 #!/bin/bash
 
 script(){
-   cp "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" 2> /dev/null || true
+   mv -f "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" 2> /dev/null || true
    mkdir -p "/etc/pivpn/${VPN}" > /dev/null || true
    ln -sf -T "/etc/${VPN}/setupVars.conf" "/etc/pivpn/${VPN}/setupVars.conf"
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
