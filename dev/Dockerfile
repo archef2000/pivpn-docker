@@ -1,5 +1,5 @@
 FROM alpine AS builder
-RUN bash (apk install -y -f --no-install-recommends git ca-certificates) > /dev/null 2>/dev/null
+RUN apk install -y -f --no-install-recommends git ca-certificates > /dev/null 2>/dev/null
 RUN git clone https://github.com/pivpn/pivpn.git /clone
 
 FROM debian:stretch-20211011-slim
