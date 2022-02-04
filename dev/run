@@ -51,5 +51,5 @@ then
    wg-quick up wg0
    while :;do sleep 3; done
 else
-   sudo bash -E reconf
+   sudo -E bash reconf
 fi   
