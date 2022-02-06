@@ -19,7 +19,6 @@ mkdir -p /usr/local/src/pivpn/
 source  /etc/pivpn/setupVars.conf
 if [ "${VPN}" = wireguard ]; then
    echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard
-   echo "hi"
    apt-get update > /dev/null 2> /dev/null
    apt install -y --no-install-recommends wireguard-tools qrencode iproute2 > /dev/null 2> /dev/null
 fi
