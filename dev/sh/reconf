@@ -11,7 +11,6 @@ script(){
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 }
 
-echo "::: VPN Server does not exist."
 echo "::: Pre Config of PIVPN."
 mkdir -p /etc/pivpn
 sudo -E bash setupVars
