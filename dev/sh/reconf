@@ -34,7 +34,7 @@ chmod +x "${INSTALLER}"
 if [ "${LOG:=0}" -eq 0 ]
 then
    sudo -E bash listconf
-   bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure > /tmp/pivpn.log 2> /tmp/pivpn2.log
+   bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure > /tmp/pivpn.log 2> /tmp/pivpn.log
 else
    bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 fi
