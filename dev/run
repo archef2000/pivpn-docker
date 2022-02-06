@@ -1,7 +1,6 @@
 #!/bin/bash
 echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
-apt-get upgrade -y -f --no-install-recommends > /dev/null 2>/dev/null
 if ! [[ `dpkg -l | grep 'apt-transport-https\|whiptail\|dnsutils\|procps\|grep\|dhcpcd5\|iptables-persistent'` ]]; then
 apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent > /dev/null 2>/dev/null; fi
 
