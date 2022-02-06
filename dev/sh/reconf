@@ -29,6 +29,7 @@ sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTA
 sed -i 's/sync/# sync/g' "${INSTALLER}"
 chmod +x "${INSTALLER}"
 if [ "${LOG}" -eq 0 ]
+then
    sudo -E bash listconf
    bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure > /tmp/pivpn.log
 else
