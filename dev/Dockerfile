@@ -13,6 +13,7 @@ RUN apt-get update --fix-missing
 RUN apt-get install -y -f --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion ca-certificates iproute2 net-tools iptables-persistent
 # RUN apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent
 COPY sh/ /usr/local/bin/
+RUN chmod +x /usr/local/bin/*
 #RUN mkdir -p -v /usr/local/src/pivpn
 COPY  --from=builder /clone /usr/local/src/pivpn
 
