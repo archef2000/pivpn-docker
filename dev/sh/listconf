@@ -6,14 +6,16 @@ echo "::: Using DNS $pivpnDNS1 $pivpnDNS2"
 echo "::: Using domain name $pivpnHOST"
 echo "::: Using VPN NET $pivpnNET/$subnetClass"
 echo "::: Using $VPN Server"
-if [ "${TWO_POINT_FOUR}" -eq 1 ]
-then
-   echo "::: Using OpenVPN 2.4 features"
-else
-   echo "::: Using traditional OpenVPN configuration"
-   if [ "${PREDEFINED_DH_PARAM}" ]
+if [ "${VPN}" = openvpn ]; then
+   if [ "${TWO_POINT_FOUR}" -eq 1 ]
    then
-      echo "::: ::: Pre-defined DH parameters will be used"
+      echo "::: Using OpenVPN 2.4 features"
+   else
+      echo "::: Using traditional OpenVPN configuration"
+      if [ "${PREDEFINED_DH_PARAM}" ]
+      then
+         echo "::: ::: Pre-defined DH parameters will be used"
+      fi
    fi
 fi
 echo "::: Using a "$pivpnENCRYPT"-bit certificate"
