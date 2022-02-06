@@ -28,8 +28,12 @@ sed -i 's/PIVPN_DEPS+=(linux-headers-amd64 wireguard-dkms)/sleep 1/g' "${INSTALL
 sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}"
 sed -i 's/sync/# sync/g' "${INSTALLER}"
 chmod +x "${INSTALLER}"
-bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
-
+if [ "${LOG}" -eq 0 ]
+   sudo -E bash listconf
+   bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure > /tmp/pivpn.log
+else
+   bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+fi
 echo "::: Installation Complete!"
 echo "::: PiVPN Service Started"
 if [ -f /etc/wireguard/wg0.conf ]
