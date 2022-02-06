@@ -47,10 +47,10 @@ then
    script
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
    echo 1
-   wg-quick up wg0
-   echo 2
    sleep 2
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
+   echo 2
+   wg-quick up wg0
    echo 3
    wg syncconf wg0 <(wg-quick strip wg0)
    echo 4
