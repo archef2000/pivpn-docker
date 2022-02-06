@@ -46,7 +46,7 @@ then
    script
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null 2> /dev/null
-   wg-quick up wg0 2> /etc/wireguard/start.log
+   wg-quick up wg0 2>> /etc/wireguard/start.log
    #wg syncconf wg0 <(wg-quick strip wg0)
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
