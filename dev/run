@@ -1,8 +1,7 @@
 #!/bin/bash
 echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
-if ! [[ `dpkg -l | grep 'apt-transport-https\|whiptail\|dnsutils\|procps\|grep\|dhcpcd5\|iptables-persistent\|git'` ]]; then
-apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent git > /dev/null 2>/dev/null; fi
+apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent git > /dev/null 2>/dev/null
 
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
@@ -20,8 +19,7 @@ then
    echo "::: If you have changed Variables in a running PIVPN Install run reconf"
    VPN=openvpn
    echo "::: Prepareing Openvpn"
-   if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
-   apt install -y --no-install-recommends gnupg openvpn grepcidr expect > /dev/null 2>/dev/null; fi
+   apt install -y --no-install-recommends gnupg openvpn grepcidr expect > /dev/null 2>/dev/null
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
    echo "::: Starting Openvpn"
@@ -38,9 +36,8 @@ then
    echo "::: If you have changed Variables in a running PIVPN Install run reconf"
    VPN=wireguard
    echo "::: Prepareing Wireguard"
-   if ! [[ `dpkg -l | grep 'wireguard-tools\|qrencode'` ]]; then
    (echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard) > /dev/null 2>/dev/null
-   apt install -y --no-install-recommends wireguard-tools qrencode > /dev/null 2>/dev/null; fi
+   apt install -y --no-install-recommends wireguard-tools qrencode > /dev/null 2>/dev/null
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
    echo "::: Starting Wireguard"
@@ -54,4 +51,4 @@ then
    while :;do sleep 3; done
 else
    sudo -E bash reconf
-fi   
+fi  
