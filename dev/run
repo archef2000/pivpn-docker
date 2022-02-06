@@ -22,7 +22,7 @@ then
    if ! [[ `dpkg -l | grep 'openvpn\|grepcidr\|expect\|gnupg'` ]]; then
    (apt-get update && apt install -y --no-install-recommends gnupg openvpn grepcidr expect) > /dev/null 2>/dev/null; fi
    script
-   (pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null) || true
+   pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
    echo "::: Starting Openvpn"
    #sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
@@ -41,7 +41,7 @@ then
    (echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard) > /dev/null 2>/dev/null
    (apt-get update && apt install -y --no-install-recommends wireguard-tools qrencode) > /dev/null 2>/dev/null; fi
    script
-   pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null || true
+   pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
    echo "::: Starting Wireguard"
    # sudo iptables -P FORWARD ACCEPT
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
