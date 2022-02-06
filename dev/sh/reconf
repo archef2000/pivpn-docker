@@ -46,21 +46,16 @@ then
    VPN=wireguard
    script
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-   echo 1
-   sleep 2
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null 2> /dev/null
-   echo 2
    wg-quick up wg0
-   echo 3
    wg syncconf wg0 <(wg-quick strip wg0)
-   echo 4
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
 then
    VPN=openvpn
    script
    #systemctl enable openvpn > /dev/null
-   pivpn -a nopass -n ${CLIENT_NAME:=pivpn} -d 1080 > /dev/null
+   pivpn -a nopass -n ${CLIENT_NAME:=pivpn} -d 1080 > /dev/null 2> /dev/null
    sleep 1
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 fi
