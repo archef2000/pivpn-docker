@@ -49,7 +49,7 @@ then
    # systemctl enable wg-quick@wg0.service
    # systemctl start wg-quick@wg0.service
    # sleep 2
-   wg-quick up wg0
+   wg-quick up wg0 2>> /etc/wireguard.log
    while :;do sleep 3; done
 else
    sudo -E bash reconf
