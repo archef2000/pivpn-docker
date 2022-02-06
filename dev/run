@@ -1,8 +1,8 @@
 #!/bin/bash
 echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
-if ! [[ `dpkg -l | grep 'apt-transport-https\|whiptail\|dnsutils\|procps\|grep\|dhcpcd5\|iptables-persistent'` ]]; then
-apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent > /dev/null 2>/dev/null; fi
+if ! [[ `dpkg -l | grep 'apt-transport-https\|whiptail\|dnsutils\|procps\|grep\|dhcpcd5\|iptables-persistent\|git'` ]]; then
+apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent git > /dev/null 2>/dev/null; fi
 
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
