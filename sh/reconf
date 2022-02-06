@@ -1,0 +1,60 @@
+#!/bin/bash
+
+pivpnFilesDir="/usr/local/src/pivpn"
+pivpnScriptDir="/opt/pivpn"
+script(){
+   mv -f "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" 2> /dev/null || true
+   mkdir -p "/etc/pivpn/${VPN}" > /dev/null || true
+   ln -sf -T "/etc/${VPN}/setupVars.conf" "/etc/pivpn/${VPN}/setupVars.conf"
+   ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
+   ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
+   ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
+}
+echo "::: installing PIVPN"
+echo "::: Pre Config of PIVPN."
+mkdir -p /etc/pivpn
+sudo -E bash setupVars
+INSTALLER=/etc/pivpn/install.sh
+mkdir -p /usr/local/src/pivpn/
+source  /etc/pivpn/setupVars.conf
+if [ "${VPN}" = wireguard ]; then
+   echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard
+   apt-get update > /dev/null 2> /dev/null
+   apt install -y --no-install-recommends wireguard-tools qrencode iproute2 > /dev/null 2> /dev/null
+fi
+PLAT=Ubuntu
+curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}"
+sed -i 's/debconf-apt-progress --//g' "${INSTALLER}"
+sed -i '/setStaticIPv4 #/d' "${INSTALLER}"
+sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}"
+sed -i 's/PIVPN_DEPS+=(linux-headers-amd64 wireguard-dkms)/sleep 1/g' "${INSTALLER}"
+sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}"
+sed -i 's/sync/# sync/g' "${INSTALLER}"
+chmod +x "${INSTALLER}"
+if [ "${LOG:=0}" -eq 0 ]
+then
+   sudo -E bash listconf
+   bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure > /tmp/pivpn.log 2> /tmp/pivpn.log
+else
+   bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+fi
+echo "::: Installation Complete!"
+echo "::: PiVPN Service Started"
+if [ -f /etc/wireguard/wg0.conf ]
+then
+   VPN=wireguard
+   script
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null 2> /dev/null
+   wg-quick up wg0 2> /etc/wireguard/start.log
+   #wg syncconf wg0 <(wg-quick strip wg0)
+   while :;do sleep 3; done
+elif [ -f /etc/openvpn/server.conf ]
+then
+   VPN=openvpn
+   script
+   #systemctl enable openvpn > /dev/null
+   pivpn -a nopass -n ${CLIENT_NAME:=pivpn} -d 1080 > /dev/null 2> /dev/null
+   sleep 1
+   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+fi
