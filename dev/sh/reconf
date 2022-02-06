@@ -10,7 +10,7 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 }
-
+echo "::: installing PIVPN"
 echo "::: Pre Config of PIVPN."
 mkdir -p /etc/pivpn
 sudo -E bash setupVars
@@ -20,15 +20,15 @@ echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/a
 apt-get update > /dev/null 2> /dev/null
 apt install -y --no-install-recommends wireguard-tools qrencode iproute2 > /dev/null 2> /dev/null
 PLAT=Ubuntu
- curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}" \
- && sed -i 's/debconf-apt-progress --//g' "${INSTALLER}" \
- && sed -i '/setStaticIPv4 #/d' "${INSTALLER}" \
- && sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}" \
- && sed -i 's/PIVPN_DEPS+=(linux-headers-amd64 wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
- && sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}" \
- && sed -i 's/sync/# sync/g' "${INSTALLER}" \
- && chmod +x "${INSTALLER}" \
- && bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
+curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}"
+sed -i 's/debconf-apt-progress --//g' "${INSTALLER}"
+sed -i '/setStaticIPv4 #/d' "${INSTALLER}"
+sed -i 's/WIREGUARD_SUPPORT=0/WIREGUARD_SUPPORT=1/g' "${INSTALLER}"
+sed -i 's/PIVPN_DEPS+=(linux-headers-amd64 wireguard-dkms)/sleep 1/g' "${INSTALLER}"
+sed -i 's/PIVPN_DEPS+=(linux-headers-generic wireguard-dkms)/sleep 1/g' "${INSTALLER}"
+sed -i 's/sync/# sync/g' "${INSTALLER}"
+chmod +x "${INSTALLER}"
+bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 
 echo "::: Installation Complete!"
 echo "::: PiVPN Service Started"
