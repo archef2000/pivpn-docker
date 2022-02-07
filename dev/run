@@ -3,7 +3,9 @@ echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
 
 touch /tmp/cron.log
-cron
+echo hi
+cron &
+echo hi2
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
 script(){
