@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "::: Pre Config of PIVPN."
 apt update > /dev/null 2> /dev/null
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
@@ -12,7 +13,6 @@ script(){
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 }
 echo "::: installing PIVPN"
-echo "::: Pre Config of PIVPN."
 mkdir -p /etc/pivpn
 sudo -E bash setupVars
 INSTALLER=/etc/pivpn/install.sh
