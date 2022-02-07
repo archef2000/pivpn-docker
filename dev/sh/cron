@@ -1,12 +1,12 @@
 #/bin/bash
 
 echo "Restarted"
-apt update > /dev/null 2> /dev/null
-apt upgrade -y --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion cron ca-certificates iproute2 net-tools iptables-persistent apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent update > /dev/null 2> /dev/null
+apt update > /tmp/cron.log 2> /tmp/cron.log
+apt upgrade -y --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion cron ca-certificates iproute2 net-tools iptables-persistent apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent update > /tmp/cron.log 2> /tmp/cron.log
 
 if [ -f /etc/wireguard/wg0.conf ]
 then
-   apt upgrade -y --no-install-recommends wiregurad-tools qrencode update > /dev/null 2> /dev/null
+   apt upgrade -y --no-install-recommends wiregurad-tools qrencode update > /tmp/cron.log 2> /tmp/cron.log
 else
-   apt upgrade -y --no-install-recommends gnupg openvpn grepcidr expect update > /dev/null 2> /dev/null
+   apt upgrade -y --no-install-recommends gnupg openvpn grepcidr expect update > /tmp/cron.log 2> /tmp/cron.log
 fi
