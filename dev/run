@@ -25,7 +25,6 @@ then
    useradd -g openvpn openvpn 2> /dev/null   
    echo "::: Openvpn PiVPN Service Started"
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
-   echo "::: Openvpn Failedto Start"
 elif [ -f /etc/wireguard/wg0.conf ]
 then
    apt-get update > /dev/null 2>/dev/null
