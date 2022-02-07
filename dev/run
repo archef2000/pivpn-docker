@@ -1,7 +1,6 @@
 #!/bin/bash
 echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
-apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent git > /dev/null 2>/dev/null
 
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
@@ -20,6 +19,7 @@ then
    VPN=openvpn
    echo "::: Prepareing Openvpn"
    apt install -y --no-install-recommends gnupg openvpn grepcidr expect > /dev/null 2>/dev/null
+   apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
    echo "::: Starting Openvpn"
@@ -38,6 +38,7 @@ then
    echo "::: Prepareing Wireguard"
    (echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard) > /dev/null 2>/dev/null
    apt install -y --no-install-recommends wireguard-tools qrencode > /dev/null 2>/dev/null
+   apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
    echo "::: Starting Wireguard"
