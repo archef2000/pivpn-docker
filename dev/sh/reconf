@@ -36,6 +36,7 @@ else
    bash "${INSTALLER}" --unattended /etc/pivpn/setupVars.conf --reconfigure
 fi
 echo "::: Installation Complete!"
+cron &
 echo "::: PiVPN Service Started"
 if [ -f /etc/wireguard/wg0.conf ]
 then
