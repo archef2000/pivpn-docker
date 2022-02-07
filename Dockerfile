@@ -3,18 +3,20 @@ RUN apk add git ca-certificates > /dev/null 2>/dev/null
 RUN git clone https://github.com/pivpn/pivpn.git /clone
 
 FROM debian:stretch-20211011-slim
-# debian:stretch-20211011
-# ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN adduser --home /home/pivpn --disabled-password pivpn
-RUN apt-get update --fix-missing
-RUN apt-get install -y -f --no-install-recommends curl nano sudo systemd bsdmainutils bash-completion ca-certificates iproute2 net-tools iptables-persistent
-# RUN apt-get install -y -f --no-install-recommends apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent
+RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list
+RUN apt-get update && apt-get install -y -f --no-install-recommends wireguard-tools qrencode gnupg openvpn grepcidr expect curl nano sudo systemd bsdmainutils bash-completion cron ca-certificates iproute2 net-tools iptables-persistent apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent
+
 COPY sh/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/*
-#RUN mkdir -p -v /usr/local/src/pivpn
+
+# Cron Setup
+COPY crontab /etc/cron.d/update
+RUN chmod 0644 /etc/cron.d/update && crontab /etc/cron.d/update
+
 COPY  --from=builder /clone /usr/local/src/pivpn
 
 RUN apt-get clean \
