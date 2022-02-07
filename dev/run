@@ -14,10 +14,9 @@ script(){
 # sudo iptables -P FORWARD ACCEPT
 sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
 # (wg) sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
-echo "::: If you have changed Variables in a running PIVPN Install run reconf"
+echo "::: If you have changed Variables in a running PIVPN Install run "reconf""
 if [ -f /etc/openvpn/server.conf ]
 then
-   echo "::: Openvpn VPN Server exists"
    apt-get update > /dev/null 2>/dev/null
    apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    VPN=openvpn
@@ -29,14 +28,13 @@ then
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 elif [ -f /etc/wireguard/wg0.conf ]
 then
-   echo "::: Wireguard VPN Server exists"
    apt-get update > /dev/null 2>/dev/null
    apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    VPN=wireguard
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
-   echo "::: Wireguard PiVPN Service Started"
    wg-quick up wg0 2>> /etc/wireguard/start.log
+   echo "::: Wireguard PiVPN Service Started"
    while :;do sleep 3; done
 else
    sudo -E bash reconf
