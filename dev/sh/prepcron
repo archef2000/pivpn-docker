@@ -1,9 +1,5 @@
 #/bin/bash
 
-cron /etc/cron.d/update
- 
 chmod 0644 /etc/cron.d/update
-
 crontab /etc/cron.d/update
-
 cron
