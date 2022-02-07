@@ -1,11 +1,8 @@
 #!/bin/bash
 echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
-
-touch /tmp/cron.log
-echo hi
+apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
 cron &
-echo hi2
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
 script(){
@@ -16,42 +13,27 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 }
+# sudo iptables -P FORWARD ACCEPT
+sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+# (wg) sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
+echo "::: If you have changed Variables in a running PIVPN Install run reconf"
 if [ -f /etc/openvpn/server.conf ]
 then
    echo "::: Openvpn VPN Server exists"
-   echo "::: If you have changed Variables in a running PIVPN Install run reconf"
    VPN=openvpn
-   echo "::: Prepareing Openvpn"
-   apt install -y --no-install-recommends gnupg openvpn grepcidr expect > /dev/null 2>/dev/null
-   apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
-   echo "::: Starting Openvpn"
-   #sudo iptables -P FORWARD ACCEPT
-   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-   #systemctl enable openvpn
    groupadd openvpn 2> /dev/null   
    useradd -g openvpn openvpn 2> /dev/null   
-   echo "::: PiVPN Service Started"
+   echo "::: Openvpn PiVPN Service Started"
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
 elif [ -f /etc/wireguard/wg0.conf ]
 then
    echo "::: Wireguard VPN Server exists"
-   echo "::: If you have changed Variables in a running PIVPN Install run reconf"
    VPN=wireguard
-   echo "::: Prepareing Wireguard"
-   (echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard) > /dev/null 2>/dev/null
-   apt install -y --no-install-recommends wireguard-tools qrencode > /dev/null 2>/dev/null
-   apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
-   echo "::: Starting Wireguard"
-   # sudo iptables -P FORWARD ACCEPT
-   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
-   # sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
-   # systemctl enable wg-quick@wg0.service
-   # systemctl start wg-quick@wg0.service
-   # sleep 2
+   echo "::: Wireguard PiVPN Service Started"
    wg-quick up wg0 2>> /etc/wireguard/start.log
    while :;do sleep 3; done
 else
