@@ -1,7 +1,6 @@
 #!/bin/bash
 echo "::: Container Started"
 apt-get update > /dev/null 2>/dev/null
-apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
 cron &
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
@@ -20,6 +19,7 @@ echo "::: If you have changed Variables in a running PIVPN Install run reconf"
 if [ -f /etc/openvpn/server.conf ]
 then
    echo "::: Openvpn VPN Server exists"
+   apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    VPN=openvpn
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
@@ -30,6 +30,7 @@ then
 elif [ -f /etc/wireguard/wg0.conf ]
 then
    echo "::: Wireguard VPN Server exists"
+   apt-get install -y -f --no-install-recommends git > /dev/null 2>/dev/null &
    VPN=wireguard
    script
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
