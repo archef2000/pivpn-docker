@@ -3,8 +3,6 @@ RUN apk add git ca-certificates > /dev/null 2>/dev/null
 RUN git clone https://github.com/pivpn/pivpn.git /clone
 
 FROM debian:stretch-20211011-slim
-# debian:stretch-20211011
-# ubuntu:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
