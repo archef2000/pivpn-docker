@@ -17,11 +17,6 @@ sudo -E bash setupVars
 INSTALLER=/etc/pivpn/install.sh
 mkdir -p /usr/local/src/pivpn/
 source  /etc/pivpn/setupVars.conf
-if [ "${VPN}" = wireguard ]; then
-   echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard
-   apt-get update > /dev/null 2> /dev/null
-   apt install -y --no-install-recommends wireguard-tools qrencode iproute2 > /dev/null 2> /dev/null
-fi
 PLAT=Ubuntu
 curl -fsSL0 https://install.pivpn.io -o "${INSTALLER}"
 sed -i 's/debconf-apt-progress --//g' "${INSTALLER}"
@@ -46,8 +41,7 @@ then
    script
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null 2> /dev/null
-   wg-quick up wg0 2> /etc/wireguard/start.log
-   #wg syncconf wg0 <(wg-quick strip wg0)
+   wg-quick up wg0 2>> /etc/wireguard/start.log
    while :;do sleep 3; done
 elif [ -f /etc/openvpn/server.conf ]
 then
