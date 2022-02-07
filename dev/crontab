@@ -1,2 +1,2 @@
-0      23     */2       *       * sudo -E bash cron
+0      23     */2       *       * sudo -E bash cron >> /tmp/cron.log
 # An empty line is required at the end of this file for a valid cron file.
