@@ -15,6 +15,10 @@ RUN apt-get install -y -f --no-install-recommends curl nano sudo systemd bsdmain
 COPY sh/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/*
 
+COPY crontab /etc/cron.d/update
+RUN chmod 0644 /etc/cron.d/update
+RUN crontab /etc/cron.d/update
+
 COPY  --from=builder /clone /usr/local/src/pivpn
 
 RUN apt-get clean \
