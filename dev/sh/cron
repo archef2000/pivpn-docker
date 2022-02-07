@@ -1,5 +1,6 @@
 #/bin/bash
 
+echo "Restarted"
 apt update
 apt upgrade -y --no-install-recommends git curl nano sudo systemd bsdmainutils bash-completion cron ca-certificates iproute2 net-tools iptables-persistent apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent
 
