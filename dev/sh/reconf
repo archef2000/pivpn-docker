@@ -1,5 +1,7 @@
 #!/bin/bash
 
+apt update > /dev/null
+apt install git -y -f --no-install-recommends > /dev/null
 pivpnFilesDir="/usr/local/src/pivpn"
 pivpnScriptDir="/opt/pivpn"
 script(){
