@@ -9,8 +9,8 @@ FROM debian:stretch-20211011-slim
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN adduser --home /home/pivpn --disabled-password pivpn
-RUN apt-get update --fix-missing
 RUN echo "deb http://deb.debian.org/debian buster-backports main non-free" > /etc/apt/sources.list.d/wireguard
+RUN apt-get update --fix-missing
 RUN apt-get install -y -f --no-install-recommends wireguard-tools qrencode gnupg openvpn grepcidr expect curl nano sudo systemd bsdmainutils bash-completion cron ca-certificates iproute2 net-tools iptables-persistent apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent
 
 COPY sh/ /usr/local/bin/
