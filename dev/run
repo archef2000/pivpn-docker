@@ -14,7 +14,6 @@ script(){
 # sudo iptables -P FORWARD ACCEPT
 sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
 # (wg) sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
-echo "::: If you have changed Variables in a running PIVPN Install run "reconf""
 if [ -f /etc/openvpn/server.conf ]
 then
    apt-get update > /dev/null 2>/dev/null
@@ -26,6 +25,7 @@ then
    useradd -g openvpn openvpn 2> /dev/null   
    echo "::: Openvpn PiVPN Service Started"
    openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+   echo "::: Openvpn Failedto Start
 elif [ -f /etc/wireguard/wg0.conf ]
 then
    apt-get update > /dev/null 2>/dev/null
