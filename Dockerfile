@@ -13,7 +13,6 @@ openvpn grepcidr expect curl nano sudo systemd bsdmainutils bash-completion cron
 net-tools iptables-persistent apt-transport-https whiptail dnsutils procps grep dhcpcd5 iptables-persistent
 
 COPY sh/ /usr/local/bin/
-#RUN chmod +x /usr/local/bin/*
 
 COPY crontab /etc/cron.d/update
 
