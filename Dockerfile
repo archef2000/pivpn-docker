@@ -16,7 +16,7 @@ COPY crontab /etc/cron.d/update
 COPY  --from=builder /clone /usr/local/src/pivpn
 COPY run .
     
-RUN && chmod 0644 /etc/cron.d/update && crontab /etc/cron.d/update \
+RUN chmod 0644 /etc/cron.d/update && crontab /etc/cron.d/update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true \
     && chmod +x /home/pivpn/run /usr/local/bin/*
