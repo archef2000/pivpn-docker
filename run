@@ -10,6 +10,17 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
 }
+
+if [ -f "${SCRIPT_FILE:=/script}" ]; then
+    if "${SUDO_SCRIPT:=false}"; then
+      sudo bash ${SCRIPT_FILE:=/script}
+    else
+      bash ${SCRIPT_FILE:=/script}
+    fi
+else 
+    echo "${SCRIPT_FILE:=/script} does not exist."
+fi
+
 # sudo iptables -P FORWARD ACCEPT
 # (wg) sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
 if [ -f /etc/openvpn/server.conf ]
