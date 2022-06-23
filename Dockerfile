@@ -21,4 +21,4 @@ RUN chmod 0644 /etc/cron.d/update && crontab /etc/cron.d/update \
     && rm -rf /var/lib/apt/lists/* /var/tmp/* /etc/pivpn/openvpn/* /etc/openvpn/* /etc/wireguard/* /tmp/* || true \
     && chmod +x /home/pivpn/run /usr/local/bin/*
 
-CMD ["./run"]
+ENTRYPOINT ["./run"]
