@@ -12,7 +12,7 @@ script(){
 }
 
 if [ -f "${SCRIPT_FILE:=/script}" ]; then
-    if "${SUDO_SCRIPT:=false}"; then
+    if "${SUDO_SCRIPT:=true}"; then
       sudo bash ${SCRIPT_FILE:=/script}
     else
       bash ${SCRIPT_FILE:=/script}
@@ -39,6 +39,7 @@ then
    cron &
    VPN=wireguard
    script
+   ln -sf "/etc/wireguard/configs/" "/home/pivpn/"
    pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
    sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
    wg-quick up wg0 2>> /etc/wireguard/start.log
@@ -46,4 +47,4 @@ then
    while :;do sleep 3; done
 else
    sudo -E bash reconf
-fi  
+fi
