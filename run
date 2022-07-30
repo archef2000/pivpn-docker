@@ -28,6 +28,7 @@ then
    cron &
    VPN=openvpn
    script
+   ln -sf "/etc/openvpn/ovpns/" "/home/pivpn/"
    pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
    groupadd openvpn 2> /dev/null   
    useradd -g openvpn openvpn 2> /dev/null   
