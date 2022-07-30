@@ -9,7 +9,7 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
-   if [ -f "${SCRIPT_FILE:=/script}" ]; then
+   if [ -f "${SCRIPT_FILE:=/etc/${VPN}/script.sh}" ]; then
        if "${SUDO_SCRIPT:=fasle}"; then
          sudo bash ${SCRIPT_FILE:=/etc/${VPN}/script.sh}
        else
