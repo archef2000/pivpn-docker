@@ -9,17 +9,18 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
+   if [ -f "${SCRIPT_FILE:=/script}" ]; then
+       if "${SUDO_SCRIPT:=fasle}"; then
+         sudo bash ${SCRIPT_FILE:=/etc/${VPN}/script.sh}
+       else
+         bash ${SCRIPT_FILE:=/etc/${VPN}/script.sh}
+       fi
+   else 
+       echo "${SCRIPT_FILE:=/etc/${VPN}/script.sh} does not exist."
+   fi
 }
 
-if [ -f "${SCRIPT_FILE:=/script}" ]; then
-    if "${SUDO_SCRIPT:=true}"; then
-      sudo bash ${SCRIPT_FILE:=/script}
-    else
-      bash ${SCRIPT_FILE:=/script}
-    fi
-else 
-    echo "${SCRIPT_FILE:=/script} does not exist."
-fi
+
 
 # sudo iptables -P FORWARD ACCEPT
 # (wg) sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
