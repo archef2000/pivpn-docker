@@ -3,6 +3,7 @@
 
 
 [![Docker PIVPN](https://github.com/Archef2000/pivpn-docker/actions/workflows/main.yml/badge.svg)](https://github.com/Archef2000/pivpn-docker/actions/workflows/main.yml)
+
 Run "reconf" to reinstall pivpn and use new Variable
 
 First instalation takes about 1-5 min depending on your Internet connection
