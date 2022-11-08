@@ -1,5 +1,5 @@
 #/bin/bash
-
+sleep 10m
 apt-get update > /tmp/cron.log 2> /tmp/cron.log
 apt-get install -y -f --no-install-recommends git > /tmp/cron.log 2> /tmp/cron.log
 apt-get upgrade -y -f --no-install-recommends > /tmp/cron.log 2> /tmp/cron.log
