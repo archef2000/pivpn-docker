@@ -10,7 +10,7 @@ script(){
    ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
    ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
    if [ -f "${SCRIPT_FILE:=/etc/${VPN}/script.sh}" ]; then
-       if "${SUDO_SCRIPT:=fasle}"; then
+       if "${SUDO_SCRIPT:=false}"; then
          sudo bash ${SCRIPT_FILE:=/etc/${VPN}/script.sh}
        else
          bash ${SCRIPT_FILE:=/etc/${VPN}/script.sh}
