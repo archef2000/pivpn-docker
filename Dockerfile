@@ -2,7 +2,7 @@ FROM alpine AS builder
 RUN apk add git ca-certificates > /dev/null 2>/dev/null
 RUN git clone https://github.com/pivpn/pivpn.git /clone
 
-FROM debian:stable-20230522-slim
+FROM debian:stable-slim
 
 RUN adduser --home /home/pivpn --disabled-password pivpn \
     && echo "deb http://deb.debian.org/debian buster-backports main non-free" >> /etc/apt/sources.list \
