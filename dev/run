@@ -1,0 +1,38 @@
+#!/bin/bash
+echo "::: Container Started"
+pivpnFilesDir="/usr/local/src/pivpn"
+pivpnScriptDir="/opt/pivpn"
+script(){
+   cp "/etc/pivpn/${VPN}/setupVars.conf" "/etc/${VPN}/setupVars.conf" 2> /dev/null || true
+   mkdir -p "/etc/pivpn/${VPN}" > /dev/null || true
+   ln -sf -T "/etc/${VPN}/setupVars.conf" "/etc/pivpn/${VPN}/setupVars.conf"
+   ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/bash-completion" /etc/bash_completion.d/pivpn
+   ln -sf -T "${pivpnFilesDir}/scripts/${VPN}/pivpn.sh" /usr/local/bin/pivpn
+   ln -sf "${pivpnFilesDir}/scripts/" "${pivpnScriptDir}"
+}
+# sudo iptables -P FORWARD ACCEPT
+# (wg) sudo iptables -t nat -C POSTROUTING -s "10.8.0.0/24" -o "eth0" -j MASQUERADE
+if [ -f /etc/openvpn/server.conf ]
+then
+   cron &
+   VPN=openvpn
+   script
+   pivpn -a -n ${CLIENT_NAME:=pivpn} nopass -d 1080 > /dev/null
+   groupadd openvpn 2> /dev/null   
+   useradd -g openvpn openvpn 2> /dev/null   
+   echo "::: Openvpn PiVPN Service Started"
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   openvpn --config /etc/openvpn/server.conf --log /etc/openvpn/openvpn.log
+elif [ -f /etc/wireguard/wg0.conf ]
+then
+   cron &
+   VPN=wireguard
+   script
+   pivpn -a -n ${CLIENT_NAME:=pivpn} > /dev/null
+   sudo iptables --table nat -A POSTROUTING -o "${INTERFACE:=eth0}" -j MASQUERADE
+   wg-quick up wg0 2>> /etc/wireguard/start.log
+   echo "::: Wireguard PiVPN Service Started"
+   while :;do sleep 3; done
+else
+   sudo -E bash reconf
+fi  
